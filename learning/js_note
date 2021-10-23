@@ -1,0 +1,5 @@
+#!/usr/bin/nodejs
+
+const hi = (name) => console.log(name)
+
+hi("gg")
