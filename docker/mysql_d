@@ -1,0 +1,7 @@
+docker run -d \
+    --network wtf --network-alias mysql \
+    -v mysql1:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=secret \
+    -e MYSQL_DATABASE=wtf \
+    mysql:5.7
+
