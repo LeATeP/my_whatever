@@ -5,7 +5,7 @@ from random import randint
 
 
 x = 0
-def f():
-    print(x)
+y = {"1": "good", "2": "qwe", "3": "123"}
 
-print(x)
+for i in y:
+    print(i)
