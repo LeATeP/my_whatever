@@ -1,17 +1,22 @@
-#!/bin/env sh
-set -x
+#!/bin/env bash
+# set -x
 
+# forth 10.25.2021
+num_range() {
+    for i in {0..10}; do    # posix = (seq 10) # bash = {1..10}
+    
+    echo "$i"; done
+}
+num_range
 
 
 # third  10.23.2021
 
-test_test() {
-    test "$1" &&
-    echo "good"
-}
-
-test_test "$@"
-
+# test_test() {
+#     test "$1" &&
+#     echo "good"
+# }
+# test_test "$@"
 
 
 # second  10.21.2021
