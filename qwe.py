@@ -3,9 +3,16 @@
 from sys import argv
 from random import randint
 
-
-x = 0
-y = {"1": "good", "2": "qwe", "3": "123"}
-
-for i in y:
-    print(i)
+    
+def divided(x: int):
+    q =  "Pling" if x % 3 == 0 else ""
+    q += "Plang" if x % 5 == 0 else ""
+    q += "Plong" if x % 7 == 0 else ""
+    
+    q = x if q == "" else q
+    print(str(q))
+    
+    
+    
+divided(int(argv[1]))
+        
