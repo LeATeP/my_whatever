@@ -1,0 +1,1 @@
+sudo docker container ls -a --format '{{json .}}' > whatever
