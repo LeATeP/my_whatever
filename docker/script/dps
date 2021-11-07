@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 
+
 fn () {
 if test "$1" = "n"; then
     sudo docker container ls \
@@ -15,4 +16,4 @@ if test "$1" = "p"; then
 sudo docker container ls \
     --format 'table {{.ID}}\t{{.Image}}\t{{.Names}}'
 }
-fn "$1"
+fn "$@"
