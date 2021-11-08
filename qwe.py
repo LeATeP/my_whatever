@@ -5,7 +5,9 @@ from random import randint, choice
 from time import sleep
 
 
-
+# TODO 1: set up mysql docker server
+# TODO 2: set up basic connection with mysql (like basic code to add/edit db)
+# TODO 3: set up working container that will run scrips
 
 
 
