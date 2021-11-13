@@ -10,7 +10,7 @@ if test "$1" = "n"; then
 	exit; fi
 
 if test "$1" = "p"; then 
-	set -x
+	set -x 
     
 	sudo docker container ls \
         --format 'table {{.ID}}\t{{.Image}}\t{{.Ports}}';
