@@ -8,7 +8,11 @@ done	# '\e[' initiate.. 1 for font style...
 		# '38' for color mode.. 
 		# '5' for 255 / 2 for R;G;B
 		# '%s' for display.. + '\n'
-		
+
+		# terminal theme color '[30m .. [37m' /// to clean screen '\e[H\e[2J
+		# to reset colors '\e[0m'
+
+	
 
 # q1() {
 # for i in *; do 
