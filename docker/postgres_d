@@ -1,0 +1,18 @@
+#!/bin/env bash
+
+# to open db =  docker exec -it 938 psql -U postgres sql
+            # container-id / pgres cmd / -U Username.. and db name
+
+p_user="postgres"
+p_db="sql"
+sudo docker run -dp 5432:5432 \
+    --name psql-1 \
+    -v psql_data:/var/lib/mysql \
+	-e POSTGRES_USER="$p_user" \
+    -e POSTGRES_PASSWORD=123 \
+	-e POSTGRES_DB="$p_db" \
+	postgres  
+
+sleep 2
+sudo docker exec -it "$(d ps -ql)" psql -U "$p_user" "$p_db"
+
