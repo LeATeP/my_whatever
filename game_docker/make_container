@@ -1,0 +1,3 @@
+#!/bin/env bash
+
+sudo docker run -d -t -v "/home/leatep/scripts/game_docker:/work" python:latest python3 /work/iron.py

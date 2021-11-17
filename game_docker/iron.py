@@ -1,3 +1,5 @@
+#!/bin/env python3
+
 from time import sleep
 
 iron_ore = 0
