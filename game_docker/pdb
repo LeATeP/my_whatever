@@ -10,8 +10,8 @@ if test "$1" = "create"; then
 sudo docker run -dp 5432:5432 \
     --name psql-1 \
     --restart unless-stopped \
-    --network p_net \
-    -v psql_data:/var/lib/postgres/data \
+    --network p_net --network-alias postgres \
+    -v psql_data:/var/lib/postgresql/data \
     -e POSTGRES_USER="$p_user" \
     -e POSTGRES_PASSWORD=123 \
     -e POSTGRES_DB="$p_db" \
