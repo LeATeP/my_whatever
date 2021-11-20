@@ -8,7 +8,7 @@ p_db="sql"
 
 if test "$1" = "create"; then
 sudo docker run -dp 5432:5432 \
-    --name psql-1 \
+    --name "$p_user" \
     --restart unless-stopped \
     --network p_net --network-alias postgres \
     -v psql_data:/var/lib/postgresql/data \
@@ -19,5 +19,5 @@ sudo docker run -dp 5432:5432 \
     exit; fi
 
 if test "$1" = "att"; then
-    sudo docker exec -it "$(d ps -q | head -1)" psql -U "$p_user" "$p_db"
+    sudo docker exec -it "$p_user" psql -U "$p_user" "$p_db"
     exit; fi
