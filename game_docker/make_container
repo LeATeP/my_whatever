@@ -1,6 +1,17 @@
 #!/bin/env bash
 
-sudo docker run -d -t \
-    --network p_net \
-    -v "/home/leatep/scripts/game_docker:/game" \
-    python:latest python3 /work/iron.py
+p_host="postgres"
+p_user="postgres"
+p_db="sql"
+net="p_net"
+
+sudo docker run -it --rm \
+    --network "$net" \
+    -v "$DGAME:/game" \
+    \
+    -w /game/sql \
+    -e POSTGRES_HOST="$p_host" \
+    -e POSTGRES_USER="$p_user" \
+    -e POSTGRES_PASSWORD=123 \
+    -e POSTGRES_DB="$p_db" \
+    docker_game
