@@ -1,0 +1,8 @@
+#!/bin/env bash
+
+docker_run () {
+	sudo docker container run -it "$@"
+}
+
+docker_run "$@"
+
