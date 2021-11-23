@@ -19,7 +19,9 @@ def conn():
         sql = psql(connection)
         get = sql.get_value
         inventory = get(command="select * from inv;")        
-        print(inventory)
+        [print(n, inventory[n]) for n in inventory] # "1 {'iron_chunk': 0}"
+        
+        
         # cur = conn.cursor()
         
         # print('Postgres db version:')

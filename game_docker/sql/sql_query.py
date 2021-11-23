@@ -20,15 +20,15 @@ class psql:
     
         self.conn.commit()	
         
-    def get_value(self, command):
-        data = {}
+    def get_value(self, command) -> dict:
         cursor = self.conn.cursor()
         cursor.execute(command)
         
-        n = list(cursor.fetchone())
-        data[n[1]] = n[2]
+        data = {};
+        for n in list(cursor.fetchall()):    
+            data[n[0]] = {n[1]: n[2]} # "1 {'iron_chunk': 0}"
+            
         cursor.close()
-        
         return data
         
     def update_value(self, command):
