@@ -9,7 +9,7 @@ sudo docker run -it --rm \
     --network "$net" \
     -v "$DGAME:/game" \
     \
-    -w /game/sql \
+    -w /game \
     -e POSTGRES_HOST="$p_host" \
     -e POSTGRES_USER="$p_user" \
     -e POSTGRES_PASSWORD=123 \

@@ -26,12 +26,24 @@ class psql:
         
         data = {};
         for n in list(cursor.fetchall()):    
-            data[n[0]] = {n[1]: n[2]} # "1 {'iron_chunk': 0}"
+            data[n[1]] = n[2] # "iron_chunk: 0"
             
         cursor.close()
         return data
         
-    def update_value(self, command):
-        pass
+    def update_value(self, 
+                    column: str,
+                    item_name: str, 
+                    operator: str = '+', 
+                    amount: str = '0') -> None:
+        command = f'''
+        update items
+        set {column} = {column} {operator} {amount}
+        where name = '{item_name}';
+        '''
+ 
+        cursor = self.conn.cursor()
+        cursor.execute(command); self.conn.commit()
+        cursor.close()
 
 

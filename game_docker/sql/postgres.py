@@ -17,20 +17,10 @@ def conn():
                        password=str(env("POSTGRES_PASSWORD")))
         
         sql = psql(connection)
-        get = sql.get_value
-        inventory = get(command="select * from inv;")        
+        get, update = sql.get_value, sql.update_value
+        inventory = get(command="select * from items;")
         [print(n, inventory[n]) for n in inventory] # "1 {'iron_chunk': 0}"
         
-        
-        # cur = conn.cursor()
-        
-        # print('Postgres db version:')
-        # cur.execute('SELECT version()')
-        
-        # db_version = cur.fetchone()
-        # print(db_version)
-        
-        # cur.close()
     except (Exception, DatabaseError) as error:
         print(error)
     finally:
