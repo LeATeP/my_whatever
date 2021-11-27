@@ -1,9 +1,11 @@
 #!/bin/env python3
 from psycopg2 import connect, DatabaseError
 from os import environ 
-from sql.sql_query import psql
 from time import sleep
-from sys import argv
+from sys import argv, path
+
+path.append('../')
+from sql.sql_query import psql
 
 env = environ.get
 
