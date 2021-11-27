@@ -1,10 +1,12 @@
 #!/bin/env bash
 
-
 net="p_net"
 name="game123"
+
+# DGAME="Project clone location"
 
 sudo docker run -it --rm \
     --name "$name" \
     --network "$net" \
-    game1
+    -v "$DGAME":/my_whatever/game_docker \
+    game

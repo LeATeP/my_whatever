@@ -14,21 +14,19 @@ def conn():
     try:
         print('Connecting to postgres server')
         connection = connect(host=str(env("POSTGRES_HOST")), 
-                       database=str(env("POSTGRES_DB")), 
-                       user=str(env("POSTGRES_USER")), 
-                       password=str(env("POSTGRES_PASSWORD")))
+                            database=str(env("POSTGRES_DB")), 
+                            user=str(env("POSTGRES_USER")), 
+                            password=str(env("POSTGRES_PASSWORD")))
         
         sql = psql(connection)
         get, update = sql.get_value, sql.update_value
         
-        
-        x = 0
+    
         while True:
             update(column="amount", 
-                   item_name=f"{argv[1]}", 
+                   item_name=f"Rock", 
                    operator="+", amount="1")
-            sleep(0.0025)
-            x += 1; print(x)
+            sleep(5)
         
     except (Exception, DatabaseError) as error:
         print(error)

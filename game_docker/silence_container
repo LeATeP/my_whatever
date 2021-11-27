@@ -1,18 +1,10 @@
 #!/bin/env bash
 
-p_host="postgres"
-p_user="postgres"
-p_db="sql"
 net="p_net"
 
+# DGAME="Project clone location"
 
-sudo docker run -t -d \
+sudo docker run -t -d --rm \
     --network "$net" \
-    -v "$DGAME:/game" \
-    -w /game \
-    -e PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/game:/game/sql" \
-    -e POSTGRES_HOST="$p_host" \
-    -e POSTGRES_USER="$p_user" \
-    -e POSTGRES_PASSWORD=123 \
-    -e POSTGRES_DB="$p_db" \
-    docker_game "$@"
+    -v "$DGAME":/my_whatever/game_docker \
+    game "$@"
