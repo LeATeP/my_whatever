@@ -12,5 +12,5 @@ ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=123
 ENV POSTGRES_DB=sql
 
-WORKDIR /my_whatever/game_docker/hub
+WORKDIR /game
 

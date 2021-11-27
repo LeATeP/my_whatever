@@ -6,5 +6,5 @@ net="p_net"
 
 sudo docker run -t -d --rm \
     --network "$net" \
-    -v "$DGAME":/my_whatever/game_docker \
+    -v "$DGAME":game \
     game "$@"
