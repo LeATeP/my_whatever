@@ -5,6 +5,7 @@
 - Python/bash
 
 game_docker set up:  # clone project yourself and check comment in "create_hub"
+
 "docker build -t game ."
 
 "run pdb create" # creating postgres db
