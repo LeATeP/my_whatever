@@ -21,4 +21,6 @@ sudo docker run -t -d \
     docker_game 
 exit; fi
 
-sudo docker exec "$name" "$@"
+if test "$1" == "1"; then
+    sudo docker exec "$name" items.py
+exit; fi
