@@ -20,7 +20,7 @@ def conn():
         
         sql = psql(connection)
         get, update = sql.get_value, sql.update_value
-        inventory = get(command="select * from items;")
+        inventory = get(selects='*', table='items')
         [print(f"| {n}: {inventory[n]} |") for n in inventory] # "1 {'iron_chunk': 0}"
         
     except (Exception, DatabaseError) as error:

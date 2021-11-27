@@ -7,7 +7,7 @@ from sys import argv
 
 env = environ.get
 
-
+items_ideas = ['Rock', 'Stone block', 'iron_ore']
 def conn():
     conn = None
     
@@ -21,12 +21,14 @@ def conn():
         sql = psql(connection)
         get, update = sql.get_value, sql.update_value
         
+        
+        x = 0
         while True:
             update(column="amount", 
                    item_name=f"{argv[1]}", 
                    operator="+", amount="1")
-            sleep(5)
-        
+            sleep(0.0025)
+            x += 1; print(x)
         
     except (Exception, DatabaseError) as error:
         print(error)

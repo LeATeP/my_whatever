@@ -5,10 +5,8 @@ p_user="postgres"
 p_db="sql"
 net="p_net"
 
-name="qwe"
 
-sudo docker run -d \
-    --name "$name" \
+sudo docker run -t -d \
     --network "$net" \
     -v "$DGAME:/game" \
     -w /game \

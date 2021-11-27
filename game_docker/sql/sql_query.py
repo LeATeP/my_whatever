@@ -20,7 +20,16 @@ class psql:
     
         self.conn.commit()	
         
-    def get_value(self, command) -> dict:
+    def get_value(self, selects: str, table: str, item_name: str = None) -> dict:
+        
+        if item_name:
+            command = f'''
+            select {selects} from {table}
+            where name = {item_name};'''
+        else:
+            command = f'''
+            select {selects} from {table};'''
+            
         cursor = self.conn.cursor()
         cursor.execute(command)
         
