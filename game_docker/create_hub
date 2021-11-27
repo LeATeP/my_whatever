@@ -1,26 +1,10 @@
 #!/bin/env bash
 
-p_host="postgres"
-p_user="postgres"
-p_db="sql"
+
 net="p_net"
+name="game123"
 
-name="game"
-
-if test "$1" == "create"; then
-sudo docker run -t -d \
+sudo docker run -it --rm \
     --name "$name" \
     --network "$net" \
-    -v "$DGAME:/game" \
-    -w /game \
-    -e PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/game:/game/sql" \
-    -e POSTGRES_HOST="$p_host" \
-    -e POSTGRES_USER="$p_user" \
-    -e POSTGRES_PASSWORD=123 \
-    -e POSTGRES_DB="$p_db" \
-    docker_game 
-exit; fi
-
-if test "$1" == "1"; then
-    sudo docker exec "$name" items.py
-exit; fi
+    game1
