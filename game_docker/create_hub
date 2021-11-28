@@ -8,5 +8,6 @@ name="game123"
 sudo docker run -it --rm \
     --name "$name" \
     --network "$net" \
-    -v "$DGAME":game \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "$DGAME":/game \
     game
