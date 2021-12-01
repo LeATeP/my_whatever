@@ -4,16 +4,17 @@
 - Docker
 - Python/bash
 
+1. set up image "docker build -t game ."
 
-game_docker set up:  # clone project yourself and check comment in "create_hub"
+2. create db container "run my_whatever/game_docker/pdb create" # creating postgres db
 
-"docker build -t game ."
+3. change project location in "create_hub" / "silence_container" to your project clone location and run docker container script "my_whatever/game_docker/create_hub"
 
-"run pdb create" # creating postgres db
+4. to test that everything worked you can run "items.py" or "my_whatever/game_docker/hub/items.py"
 
-"run create_hub" # main menu
 
-there is no auto add tables or stuff... 
+# but it will display nothing cuz you have nothing in db
+
 
 items.py display table "items" that include 'id', 'name', 'amount'
 
