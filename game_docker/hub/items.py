@@ -1,14 +1,13 @@
 #!/bin/env python3
 from psycopg2 import connect, DatabaseError
-from os import environ 
+from os import environ
 from time import sleep
 from sys import argv, path
 
-path.append('../')
-from sql.sql_query import psql
-
 env = environ.get
 
+path.append(env("GAME")) # my_whatever/game_docker
+from sql.sql_query import psql
 
 def conn():
     conn = None

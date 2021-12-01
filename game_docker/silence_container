@@ -2,9 +2,9 @@
 
 net="p_net"
 
-# DGAME="Project clone location"
+project="/home/leatep/scripts" # location of my_whatever/ project
 
-sudo docker run -t -d --rm \
+docker run -t -d --rm \
     --network "$net" \
-    -v "$DGAME":/game \
-    game "$@"
+    -v "$project":/project \
+    docker_game "$@"

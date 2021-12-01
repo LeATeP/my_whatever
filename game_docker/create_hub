@@ -3,11 +3,12 @@
 net="p_net"
 name="game123"
 
-# DGAME="Project clone location at the end: '/my_whatever/game_docker'"
+# project location
+project="$HOME/scripts"
 
-sudo docker run -it --rm \
+docker run -it --rm \
     --name "$name" \
     --network "$net" \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v "$DGAME":/game \
-    game
+    -v "$project":/project \
+    docker_game
