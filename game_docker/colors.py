@@ -31,7 +31,7 @@ def bg_rgb(text: str, r: int = None, g: int = None, b: int = None, mode: str = N
     "cyan": "\u001b[46m",
     "white": "\u001b[47m",
     }
-    if r or g or b:
+    if r and g and b:
         return f"\u001b[48;2;{r};{g};{b}m{text}\033[0m"
     if mode:
         return colors[mode]
