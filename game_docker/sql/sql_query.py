@@ -19,21 +19,37 @@ class psql:
         cursor.close()
     
         self.conn.commit()	
+
+    def insert_new(self, table: str, row: str, race_name: str):
+        command = f'''
+        insert into {table} ({row})
+        values ('{race_name}')
+        returning id, race, grade, xp, level;'''
         
-    def get_value(self, selects: str, table: str, item_name: str = None) -> dict:
+        cursor = self.conn.cursor()
+        cursor.execute(command)
+        result = cursor.fetchall()
         
-        if item_name:
-            command = f'''
-            select {selects} from {table}
-            where name = {item_name};'''
-        else:
-            command = f'''
-            select {selects} from {table};'''
+        data = {}
+        rows = [n[0] for n in cursor.description]
+        for i in range(len(row) + 1):
+            data[rows[i]] = result[0][i]
+        
+        cursor.close() 
+        
+        self.conn.commit()
+        return data
+        
+    def get_value(self, table: str) -> dict:
+        
+
+        command = f'''
+        select * from {table};'''
             
         cursor = self.conn.cursor()
         cursor.execute(command)
         
-        data = {};
+        data = {}
         for n in list(cursor.fetchall()):    
             data[n[1]] = n[2] # "iron_chunk: 0"
             
