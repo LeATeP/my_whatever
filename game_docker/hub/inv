@@ -30,15 +30,15 @@ def conn():
             except(Exception):
                 print(Exception)
         else:
-            [print(f"| {n}: {inventory[n]} |") for n in inventory] # "1 {'iron_chunk': 0}"
+            [print(f"{n}: {inventory[n]}") for n in inventory] # "1 {'iron_chunk': 0}"
         
     except (Exception, DatabaseError) as error:
         print(error)
     finally:
         if connection:
             connection.close()
-            print('Database connection closed.')
     
+
 
 if __name__ == "__main__":
     conn()
