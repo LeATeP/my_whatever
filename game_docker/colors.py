@@ -14,7 +14,7 @@ def fg_rgb(text: str, r: int = None, g: int = None, b: int = None, mode: str = N
     "cyan": "\u001b[36m",
     "white": "\u001b[37m",
     }
-    if r or g or b:
+    if r and g and b:
         return f"\u001b[38;2;{r};{g};{b}m{text}\033[0m"
     if mode:
         return colors[mode]
