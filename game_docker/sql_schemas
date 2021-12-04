@@ -1,0 +1,39 @@
+select * from raw_materials;
+
+select * from items;
+
+create table items (
+id serial primary key,
+name text unique,
+amount int default 0 check (amount <= amount_limits),
+amount_limits int default 1000
+);
+
+update items
+set amount = 10
+where name = 'Energy rock';
+
+select name, amount from items
+where name = 'Iron_chunk';
+
+
+create table worker (
+id serial primary key,
+name text default 'Human',
+working bool default false,
+grade text default 'common',
+xp int default 0,
+level int default 1,
+mining_speed float default 1
+);
+
+insert into worker (name)
+VALUES ('Human')
+returning id, name, grade, xp, level;
+
+select * from worker;
+
+drop table worker;
+
+select amount from items
+where name = 'Rock';

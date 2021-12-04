@@ -1,0 +1,63 @@
+#!/bin/env python3
+
+from psycopg2 import connect, DatabaseError
+from os import environ, system
+from time import sleep
+from sys import argv, path
+
+env = environ.get
+
+
+path.append(env("GAME")) # my_whatever/game_docker
+from sql.sql_query import psql
+
+
+
+def conn():
+    try:
+        connection = connect(host=str(env("POSTGRES_HOST")), 
+                       database=str(env("POSTGRES_DB")), 
+                       user=str(env("POSTGRES_USER")), 
+                       password=str(env("POSTGRES_PASSWORD")))
+        sql = psql(connection)
+        get, update = sql.get_value, sql.update_value
+        inventory = get(table="items") # get(table=[argv[1] if len(argv) > 1 else 'items'][0])
+        
+        if len(argv) > 1:
+            print(f"Comressing {argv[1]}: {argv[2]}")
+            available = inventory[argv[1]]
+            
+            num = int(argv[2])
+            if available >= num and num % 100 == 0:
+                # remove resources from sql
+                update(amount=argv[2], operator="-", item_name=argv[1])
+                # add resources
+                num = int(num / 100)
+                update(amount=num, item_name="Energy rock")
+                
+                print("Compress finished")
+                print(f"You got Energy rock: {num}")    
+            
+        
+        else:
+            print("To compress you have to put 100 material for each")
+        
+        
+        
+    except (Exception, DatabaseError) as error:
+        print(error)
+    finally:
+        if connection:
+            connection.close()
+    
+
+
+if __name__ == "__main__":
+    conn()
+        
+
+
+
+
+
+
