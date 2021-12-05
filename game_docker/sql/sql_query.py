@@ -10,65 +10,63 @@ item_list = ['Iron_chunk', 'Copper_chunk', 'Gold_coin']
 
 
 class psql:
-    def __init__(self, connection) -> None:
+    def __init__(self, cursor, connection) -> None:
+        self.cursor = cursor
         self.conn = connection
     
-    def create_table(self):
-        cursor = self.conn.cursor()
-        cursor.execute(create_inv)
-        cursor.close()
+    def create_table(self):   
+        self.cursor.execute(create_inv); self.conn.commit()
     
-        self.conn.commit()	
 
-    def insert_new(self, table: str, row: str, race_name: str):
+    def insert_new(self, table: str, row: str, name: str, returning: str):
         command = f'''
         insert into {table} ({row})
-        values ('{race_name}')
-        returning id, race, grade, xp, level;'''
+        values ('{name}')
+        returning {returning};'''
         
-        cursor = self.conn.cursor()
-        cursor.execute(command)
-        result = cursor.fetchall()
+        
+        self.cursor.execute(command); self.conn.commit()
+        result = self.cursor.fetchall()
+        
         
         data = {}
-        rows = [n[0] for n in cursor.description]
+        rows = [n[0] for n in self.cursor.description]
         for i in range(len(row) + 1):
             data[rows[i]] = result[0][i]
         
-        cursor.close() 
-        
-        self.conn.commit()
         return data
         
-    def get_value(self, table: str) -> dict:
+    def get_value(self, table: str, select: str = "*", values: str = None) -> dict:
+        if values is not None:
+            command = f'''
+            select {select} from {table}
+            values ({values});'''
+        else:
+            command = f'''
+            select {select} from {table};'''
         
-
-        command = f'''
-        select * from {table};'''
-            
-        cursor = self.conn.cursor()
-        cursor.execute(command)
+        self.cursor.execute(command)
         
         data = {}
-        for n in list(cursor.fetchall()):    
+        for n in list(self.cursor.fetchall()):    
             data[n[1]] = n[2] # "iron_chunk: 0"
             
-        cursor.close()
         return data
         
-    def update_value(self, 
-                    column: str,
-                    item_name: str, 
+    def update_value(self,
+                    item_name: str,
+                    table: str = "items",
+                    column: str = "amount",
                     operator: str = '+', 
                     amount: str = '0') -> None:
         command = f'''
-        update items
+        update {table}
         set {column} = {column} {operator} {amount}
         where name = '{item_name}';
         '''
  
-        cursor = self.conn.cursor()
-        cursor.execute(command); self.conn.commit()
-        cursor.close()
+        self.cursor.execute(command); self.conn.commit()
+        
+        return True
 
 

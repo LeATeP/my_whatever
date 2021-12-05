@@ -1,47 +1,31 @@
 #!/bin/env python3
 
-from psycopg2 import connect, DatabaseError
-from os import environ, system
-from time import sleep
+from os import environ
 from sys import argv, path
-
+from wrap import init_conn
 env = environ.get
 
 
 path.append(env("GAME")) # my_whatever/game_docker
 from sql.sql_query import psql
+from hub.wrap import init_conn
 
 
-
-def conn():
-    try:
-        connection = connect(host=str(env("POSTGRES_HOST")), 
-                       database=str(env("POSTGRES_DB")), 
-                       user=str(env("POSTGRES_USER")), 
-                       password=str(env("POSTGRES_PASSWORD")))
-        sql = psql(connection)
-        get, update = sql.get_value, sql.update_value
-        inventory = get(table="items") # get(table=[argv[1] if len(argv) > 1 else 'items'][0])
+def get_inv(cmd):
+    inventory = cmd['get'](table="items") # get(table=[argv[1] if len(argv) > 1 else 'items'][0])
         
         
-        if len(argv) > 1:
-            try:
-                print(f"{argv[1]}: ", inventory[argv[1]])
-            except(Exception):
-                print(Exception)
-        else:
-            [print(f"{n}: {inventory[n]}") for n in inventory] # "1 {'iron_chunk': 0}"
-        
-    except (Exception, DatabaseError) as error:
-        print(error)
-    finally:
-        if connection:
-            connection.close()
-    
+    if len(argv) > 1:
+        try:
+            print(f"{argv[1]}:", inventory[argv[1]])
+        except(Exception):
+            print(Exception)
+    else:
+        [print(f"{n}: {inventory[n]}") for n in inventory] # "1 {'iron_chunk': 0}"
 
 
 if __name__ == "__main__":
-    conn()
+    init_conn(get_inv)
         
 
 
