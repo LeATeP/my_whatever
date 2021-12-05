@@ -11,7 +11,7 @@ def conn(cmd):
    while True:
        cmd['update'](item_name="Rock",
                      amount="1")
-       sleep(1)
+       sleep(5)
     
 if __name__ == "__main__":
     init_conn(conn)

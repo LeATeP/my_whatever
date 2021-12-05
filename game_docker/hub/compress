@@ -9,7 +9,7 @@ from hub.wrap import init_conn
 
 
 
-def conn(cmd, cnt):
+def conn(cmd):
     inventory = cmd['get'](table="items")
     
     if len(argv) > 1:
