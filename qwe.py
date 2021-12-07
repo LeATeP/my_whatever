@@ -5,10 +5,15 @@ from random import randint, choice
 from time import sleep
 
 
-# TODO 1: set up mysql docker server
-# TODO 2: set up basic connection with mysql (like basic code to add/edit db)
-# TODO 3: set up working container that will run scrips
-# TODO 4: set up gaming element's like 
+# + TODO 1: set up mysql docker server
+# + TODO 2: set up basic connection with mysql (like basic code to add/edit db)
+# + TODO 3: set up working container that will run scrips
+# TODO 4: add important variables into sql and track them
+#						- from worker container  
+# TODO 5: constuct independent container that 
+# 						- check sql and update value's
+# TODO 6: add scripts to run new containers 
+# TODO *: set up gaming element's like 
 # (create container / connect network / make storage)
 
 

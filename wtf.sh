@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
-
-for q in $(seq 0 15 255); do
-    for w in $(seq 0 15 255); do
-        for e in $(seq 0 15 255); do
-            printf "\e[38;2;${q};${w};${e}m%s $1"  
-            sleep .005  
-        done
-    done
-done
+# for q in $(seq 0 15 255); do
+#     for w in $(seq 0 15 255); do
+#         for e in $(seq 0 15 255); do
+#             printf "\e[38;2;${q};${w};${e}m%s $1"  
+#             sleep .005  
+#         done
+#     done
+# done
 
 
 # 256 colors
