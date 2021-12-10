@@ -1,5 +1,3 @@
-#!/usr/bin/nodejs
+#!/usr/bin/node
 
-const hi = (name) => console.log(name)
-
-hi("gg")
+console.log("good")
