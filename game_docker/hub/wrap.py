@@ -19,13 +19,10 @@ class init_conn():
                                password=str(env("POSTGRES_PASSWORD")))
             cursor = connection.cursor()
             sql = psql(cursor, connection)
-            cmd = {'get': sql.get_value,
-                   'update': sql.update_value,
-                   'insert': sql.insert_new}
             
             
             # #####
-            fn(cmd)
+            fn(sql.cmd)
             # #####
             
             

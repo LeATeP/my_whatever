@@ -7,32 +7,30 @@ env = environ.get
 path.append(env("GAME")) # my_whatever/game_docker
 from hub.wrap import init_conn
 
-summon_cost = 10
 
 
-def conn(cmd):
-    worker = cmd['insert'](table="worker", row="name", name=f"Human", returning="id, name, grade, xp, level")
-    [print(f"{n}: {worker[n]}") for n in worker]
+def start_work(cmd):
+    summon_cost = 10
+    check_quantity = cmd('''select amount from items
+                         where name = 'Rock';''')
+    for n in check_quantity:
+        if check_quantity[n]['amount'] < summon_cost:
+            break
         
-    
-    
-def check_available_resources(inv, vars) -> bool:
-    cost = summon_cost * int(vars[1]) if len(vars[1]) > 1 else 1
-    
-    energy = inv["Energy rock"]
-    if energy >= cost:
-        return True
-    return False
-    
-def argv_test() -> int:
-    if len(argv) > 1:
-        try:
-            num = int(argv[1])
-            return num
-        except ValueError:
-            print("Input is not a number")
+    updated_amount = cmd(f'''update items
+        set amount = amount - {summon_cost}
+        where name = 'Rock'
+        returning amount;''')
+    print(updated_amount)
+    worker = cmd('''insert into worker (name) 
+                 values ('Human') 
+                 returning *;''')
+    for n in worker:
+        [print(f"{i}: {worker[n][i]}") for i in worker[n]]
+
             
-    
+            
+        
 if __name__ == "__main__":
-    init_conn(conn)
+    init_conn(start_work)
     
