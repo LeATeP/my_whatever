@@ -1,0 +1,11 @@
+#!/bin/env python3
+
+u = 'undo change'
+
+dd = 'delete line'
+
+gg = 'move to first line'
+G = 'move to last line'
+
+{ = 'move 1 block up'
+} = 'move 1 block down'
