@@ -15,13 +15,15 @@ def start_work(cmd):
                          where name = 'Rock';''')
     for n in check_quantity:
         if check_quantity[n]['amount'] < summon_cost:
+            print('you dont have enough materials')
             break
         
     updated_amount = cmd(f'''update items
         set amount = amount - {summon_cost}
         where name = 'Rock'
         returning amount;''')
-    print(updated_amount)
+    print('Your balance: ' + str([n for n in updated_amount][0]))
+    
     worker = cmd('''insert into worker (name) 
                  values ('Human') 
                  returning *;''')
