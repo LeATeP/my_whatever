@@ -26,10 +26,15 @@ def start_work(cmd):
     
     worker = cmd('''insert into worker (name) 
                  values ('Human') 
-                 returning *;''')
-    for n in worker:
-        [print(f"{i}: {worker[n][i]}") for i in worker[n]]
-
+                 returning id, name, grade, xp, level, job;''')
+    worker_id = [n for n in worker][0]
+    worker_info = cmd(f'''insert into worker_info (worker_id)
+                      values ({worker_id})
+                      returning *;''')
+    
+    
+    [print(f"{i}: {worker[worker_id][i]}") for i in worker[worker_id]]
+    print(worker_info)
             
             
         
