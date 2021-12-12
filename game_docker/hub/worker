@@ -7,37 +7,49 @@ env = environ.get
 path.append(env("GAME")) # my_whatever/game_docker
 from hub.wrap import init_conn
 
+class work_class:
+    def __init__(self) -> None:
+        self.req_resource = 'Rock'
+        self.summom_cost = 10
+    
+    def start_work(self, cmd):
+        try:
+            updated_amount = cmd(f'''update items
+                set amount = amount - {self.summom_cost}
+                where name = '{self.req_resource}'
+                returning amount;''')
+            print('Your balance: ' + str([n for n in updated_amount][0]))
+
+            worker = cmd('''insert into worker (name) 
+                         values ('Human') 
+                         returning id, name, grade, xp, level, job;''')
+            worker_id = [n for n in worker][0]
+            qq = worker.keys(); print(gg)
+            worker_info = cmd(f'''insert into worker_info (worker_id)
+                              values ({worker_id})
+                              returning *;''')
 
 
-def start_work(cmd):
-    summon_cost = 10
-    check_quantity = cmd('''select amount from items
-                         where name = 'Rock';''')
-    for n in check_quantity:
-        if check_quantity[n]['amount'] < summon_cost:
-            print('you dont have enough materials')
-            break
+            [print(f"{i}: {worker[worker_id][i]}") for i in worker[worker_id]]
+            print(worker_info)
+
+        except Exception:
+            pass            
+ 
+ 
+
+    def check_stock():
+        try:
+            check_quantity = cmd('''select amount from items
+                                 where name = 'Rock';''')
+            for n in check_quantity:
+                if check_quantity[n]['amount'] < summon_cost:
+                    print('you dont have enough materials')
         
-    updated_amount = cmd(f'''update items
-        set amount = amount - {summon_cost}
-        where name = 'Rock'
-        returning amount;''')
-    print('Your balance: ' + str([n for n in updated_amount][0]))
-    
-    worker = cmd('''insert into worker (name) 
-                 values ('Human') 
-                 returning id, name, grade, xp, level, job;''')
-    worker_id = [n for n in worker][0]
-    worker_info = cmd(f'''insert into worker_info (worker_id)
-                      values ({worker_id})
-                      returning *;''')
-    
-    
-    [print(f"{i}: {worker[worker_id][i]}") for i in worker[worker_id]]
-    print(worker_info)
-            
-            
+        except Exception:
+            pass
+        
         
 if __name__ == "__main__":
-    init_conn(start_work)
+    init_conn(work_class().start_work)
     
