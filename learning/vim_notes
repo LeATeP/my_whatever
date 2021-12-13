@@ -9,3 +9,11 @@ G = 'move to last line'
 
 { = 'move 1 block up'
 } = 'move 1 block down'
+
+diw = 'd-delete, i-in, w-word'
+ciw = 'same but with while space and enter insert mode'
+
+
+
+^E/Y/F/B = 'scroll page'
+shift + H/M/L = 'move cursor'
