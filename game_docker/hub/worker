@@ -24,7 +24,7 @@ class work_class:
                          values ('Human') 
                          returning id, name, grade, xp, level, job;''')
             worker_id = [n for n in worker][0]
-            qq = worker.keys(); print(gg)
+            
             worker_info = cmd(f'''insert into worker_info (worker_id)
                               values ({worker_id})
                               returning *;''')

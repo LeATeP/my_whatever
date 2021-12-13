@@ -19,5 +19,6 @@ class psql:
                 for i in range(len(row_name)):
                     data[row[0]].update({row_name[i]: row[i]})
             return data
-        except Exception:
+        except (Exception) as error:
+            print(error)
             return False
