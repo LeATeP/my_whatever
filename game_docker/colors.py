@@ -1,24 +1,26 @@
 #!/bin/env python3
 from sys import argv
 from os import environ
+from random import choice, randint
 
 
 def fg_rgb(text: str, r: int = None, g: int = None, b: int = None, mode: str = None): 
-    colors = {
-    "black": "\u001b[30m",
-    "red": f"\u001b[31m{text}\u001b[0m",
-    "green": "\u001b[32m",
-    "yellow": "\u001b[33m",
-    "blue": "\u001b[34m",
-    "magenta": "\u001b[35m",
-    "cyan": "\u001b[36m",
-    "white": "\u001b[37m",
-    }
-    if r and g and b:
-        return f"\u001b[38;2;{r};{g};{b}m{text}\033[0m"
-    if mode:
-        return colors[mode]
-    return None
+    # colors = {
+    # "black": f"\u001b[30m{text}\u001b[0m",
+    # "red": f"\u001b[31m{text}\u001b[0m",
+    # "green": f"\u001b[32m{text}\u001b[0m",
+    # "yellow": f"\u001b[33m{text}\u001b[0m",
+    # "blue": f"\u001b[34m{text}\u001b[0m",
+    # "magenta": f"\u001b[35m{text}\u001b[0m",
+    # "cyan": f"\u001b[36m{text}\u001b[0m",
+    # "white": f"\u001b[37m{text}\u001b[0m",
+    # }
+
+    return f"\u001b[38;2;{randint(0, 255)};{randint(0, 255)};{randint(0,255)}m{text}\u001b[0m"
+    # if mode:
+    #     return colors[mode]
+    # x = choice(list(colors.values()))
+    # return x
 
 def bg_rgb(text: str, r: int = None, g: int = None, b: int = None, mode: str = None):
     colors = {
