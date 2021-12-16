@@ -1,24 +1,33 @@
 #!/bin/env python3
 
+from psycopg2 import connect, DatabaseError
+from os import environ
+from sys import path
+
+env = environ.get
+
 class psql:
-    def __init__(self, cursor, connection) -> None:
-        self.cursor = cursor
-        self.conn = connection
-    
+    def __init__(self) -> None:
+        self.conn = connect(host=str(env("POSTGRES_HOST")), 
+                           database=str(env("POSTGRES_DB")), 
+                           user=str(env("POSTGRES_USER")), 
+                           password=str(env("POSTGRES_PASSWORD")))
+        self.curs = self.conn.cursor()
+        
     def cmd(self, cmd):
         try:
-            self.cursor.execute(cmd); self.conn.commit()
+            self.curs.execute(cmd)
+            self.conn.commit()
 
-            fetch = self.cursor.fetchall()
-            row_name = [n[0] for n in self.cursor.description]
-
+            fetch = self.curs.fetchall()
+            row_name = [n[0] for n in self.curs.description]
 
             data = {}
-            for row in fetch:
-                data[row[0]] = {f"{row_name[0]}": row[0]}
-                for i in range(len(row_name)):
-                    data[row[0]].update({row_name[i]: row[i]})
+            for i in range(len(fetch)):
+                data[i] = dict(zip(row_name, fetch[i]))
+            
             return data
-        except (Exception) as error:
+           
+
+        except (Exception, DatabaseError) as error:
             print(error)
-            return False
