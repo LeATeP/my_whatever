@@ -8,26 +8,25 @@ env = environ.get
 
 path.append(env("GAME")) # my_whatever/game_docker
 from sql.sql_query import psql
-from hub.wrap import init_conn
 
 
-def get_inv(cmd):
-    inventory = cmd("""select * from items;""")
+def get_inv():
+    cmd = psql().cmd
     
-    if len(argv) > 1:
-        try:
-            for n in inventory:
-                if inventory[n]['name'] == argv[1]:
-                    print(f"{argv[1]}: {inventory[n]['amount']}")
-        except (Exception, KeyError) as error:
-            print(error)
-    else:
-        [print(f"{inventory[n]['name']}: {inventory[n]['amount']}") for n in inventory]
+    comm = "select * from items"
+    comm += f" where name = '{argv[1]}'" if len(argv) > 1 else ''
+    comm += ';'
+    
+    inventory = cmd(comm)
+        
+    for n in inventory:
+        item = inventory[n]
+        item_name, item_amount = str(item['name']), str(item['amount'])
+        print(item_name, item_amount)
 
 
 if __name__ == "__main__":
-    init_conn(get_inv)
-        
+    get_inv()
 
 
 

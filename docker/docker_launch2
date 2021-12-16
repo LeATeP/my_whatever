@@ -1,0 +1,4 @@
+docker run -it --rm --network some-network \
+    -e DOCKER_TLS_CERTDIR=/certs \
+    -v some-docker-certs-client:/certs/client:ro \
+    docker:latest
