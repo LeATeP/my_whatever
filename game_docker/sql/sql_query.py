@@ -29,5 +29,6 @@ class psql:
             return data
            
 
-        except (Exception, DatabaseError) as error:
-            print(error)
+        except Exception as error:
+            print(error.args)
+            

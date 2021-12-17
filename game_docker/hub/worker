@@ -29,8 +29,8 @@ class work_class:
                               returning *;''')
             [print(f"{i}: {worker[0][i]}") for i in worker[0]]
             print(worker_info)
-        except (NameError, TypeError) as error:
-            print(error)
+        except (Exception) as error:
+            print(error.args)
  
  
 

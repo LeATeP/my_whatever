@@ -25,8 +25,8 @@ def get_inv():
             text_line = f'{item_name}: {item_amount}'
             print(fg_rgb(text_line))
 
-    except (TypeError, NameError) as error:
-        print(error)
+    except (Exception) as error:
+        print(error.args)
 
 if __name__ == "__main__":
     get_inv()
