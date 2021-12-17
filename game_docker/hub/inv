@@ -2,28 +2,31 @@
 
 from os import environ
 from sys import argv, path
-from wrap import init_conn
 env = environ.get
 
 
 path.append(env("GAME")) # my_whatever/game_docker
 from sql.sql_query import psql
-
+from colors import fg_rgb
 
 def get_inv():
-    cmd = psql().cmd
-    
-    comm = "select * from items"
-    comm += f" where name = '{argv[1]}'" if len(argv) > 1 else ''
-    comm += ';'
-    
-    inventory = cmd(comm)
-        
-    for n in inventory:
-        item = inventory[n]
-        item_name, item_amount = str(item['name']), str(item['amount'])
-        print(item_name, item_amount)
+    try:
+        cmd = psql().cmd
 
+        comm = "select * from items"
+        comm += f" where name = '{argv[1]}'" if len(argv) > 1 else ''
+        comm += ';'
+
+        inventory = cmd(comm)
+
+        for item in inventory.values():
+            item_name, item_amount = str(item['name']), str(item['amount'])
+
+            text_line = f'{item_name}: {item_amount}'
+            print(fg_rgb(text_line))
+
+    except (TypeError, NameError) as error:
+        print(error)
 
 if __name__ == "__main__":
     get_inv()

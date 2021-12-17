@@ -5,45 +5,41 @@ from sys import argv, path
 env = environ.get
 
 path.append(env("GAME")) # my_whatever/game_docker
-from hub.wrap import init_conn
+from sql.sql_query import psql
 
 class work_class:
     def __init__(self) -> None:
+        self.cmd = psql().cmd
         self.req_resource = 'Rock'
         self.summom_cost = 10
     
-    def start_work(self, cmd):
+    def start_work(self):
         try:
-            updated_amount = cmd(f'''update items
+            updated_amount = self.cmd(f'''update items
                 set amount = amount - {self.summom_cost}
                 where name = '{self.req_resource}'
                 returning amount;''')
-            print('Your balance: ' + str([n for n in updated_amount][0]))
+            print('Your balance:', updated_amount[0]['amount'])
 
-            worker = cmd('''insert into worker (name) 
-                         values ('Human') 
-                         returning id, name, grade, xp, level, job;''')
-            worker_id = [n for n in worker][0]
-            
-            worker_info = cmd(f'''insert into worker_info (worker_id)
-                              values ({worker_id})
+            worker = self.cmd('''insert into worker (name) 
+                                values ('Human') 
+                                returning id, name, grade, level, job;''')
+            worker_info = self.cmd(f'''insert into worker_info (worker_id)
+                              values ({worker[0]['id']})
                               returning *;''')
-
-
-            [print(f"{i}: {worker[worker_id][i]}") for i in worker[worker_id]]
+            [print(f"{i}: {worker[0][i]}") for i in worker[0]]
             print(worker_info)
-
-        except Exception:
-            pass            
+        except (NameError, TypeError) as error:
+            print(error)
  
  
 
-    def check_stock():
+    def check_stock(self):
         try:
-            check_quantity = cmd('''select amount from items
+            check_quantity = self.cmd('''select amount from items
                                  where name = 'Rock';''')
             for n in check_quantity:
-                if check_quantity[n]['amount'] < summon_cost:
+                if check_quantity[n]['amount'] < self.summon_cost:
                     print('you dont have enough materials')
         
         except Exception:
@@ -51,5 +47,5 @@ class work_class:
         
         
 if __name__ == "__main__":
-    init_conn(work_class().start_work)
+    work_class().start_work()
     
