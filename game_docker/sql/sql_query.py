@@ -21,7 +21,7 @@ class psql:
 
             fetch = self.curs.fetchall()
             row_name = [n[0] for n in self.curs.description]
-
+            
             data = {}
             for i in range(len(fetch)):
                 data[i] = dict(zip(row_name, fetch[i]))

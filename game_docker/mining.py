@@ -11,9 +11,7 @@ from colors import fg_rgb
 
 class mining:
     def __init__(self) -> None:
-        self.worker_ids = []
-        # self.user_config = {}
-        # self.tick_time = 1 if self.user_config['-t'] is None else self.user_config['-t']
+        self.host_name = env('HOSTNAME')
     
     def start_work(self):
         try:
@@ -35,14 +33,15 @@ class mining:
             
             good = True    
             while good:
-                sleep(0.1)
+                sleep(5)
                 drop = self.gen_drop()
                 for item in drop:
-                    amount = cmd(f'''update items
+                    res = cmd(f'''update items
                     set amount = amount + {drop[item]}
-                    where name = '{item}' returning amount;''')[0]['amount']
-                    s = f"{item}: {amount}"
-                    print(fg_rgb(s))
+                    where name = '{item}' returning amount;''')
+                    if not res:
+                        good = False; continue
+
 
                 
                 
