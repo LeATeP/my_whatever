@@ -1,0 +1,57 @@
+#!/bin/env python3
+from os import environ
+from sys import path, argv, flags
+from random import randint
+from time import sleep
+from collections import defaultdict
+
+env = environ.get
+path.append(env("GAME")) # my_whatever/game_docker
+from sql.sql_query import psql
+
+# creating separate container that 
+# - manage unit of the attacker
+
+# action 1: getting unit data, 
+# action 2: stating that unit is busy, and add container_id
+# action 3: exec query that takes att from unit and attack mob
+# action 4: if unit survive and mob is dead, generate loot
+
+class battle:
+    def start(self, unit_id = 2, enemy_id = 2) -> None:
+        cmd = psql().cmd
+        
+        while True:
+            unit = cmd(f'''select * from worker_info
+                       where id = {unit_id};''')[0]
+            enemy = cmd(f'''select * from mobs
+                        where id = {enemy_id};''')[0]
+            
+            if unit['hp'] <= 0 or enemy['hp'] <= 0:
+                break
+                        
+            
+
+            unit = cmd(f'''update worker_info
+                set hp = hp - (select attack from mobs where id = {enemy_id})
+                where id = {unit_id}
+                returning *;''')[0]
+            enemy = cmd(f'''update mobs
+                set hp = hp - (select attack from worker_info where id = {unit_id})
+                where id = {enemy_id}
+                returning *;''')[0]
+            print(f"unit_hp: {unit['hp']}/{unit['max_hp']}")
+            print(f"enemy_hp: {enemy['hp']}/{enemy['max_hp']}")
+
+
+    def asd():
+        pass
+
+
+
+if __name__ == "__main__":
+    # start_battle()
+    battle().start()
+
+
+
