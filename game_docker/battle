@@ -55,6 +55,7 @@ class battle:
                 set hp = hp - (select attack from mobs where id = {self.enemy_id})
                 where id = {self.unit_id}
                 returning *;''')
+            self.p.commit()
             return self.p.fetch_dict()[0]
             
         elif mod == 'enemy':
@@ -62,6 +63,7 @@ class battle:
                 set hp = hp - (select attack from worker_info where id = {self.unit_id})
                 where id = {self.enemy_id}
                 returning *;''')
+            self.p.commit()
             return self.p.fetch_dict()[0]
 
 

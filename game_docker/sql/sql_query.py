@@ -2,7 +2,6 @@
 
 from psycopg2 import connect, DatabaseError
 from os import environ
-from sys import path
 
 env = environ.get
 
@@ -18,7 +17,7 @@ class psql:
         try:
             self.curs.execute(cmd)
     
-        except Exception as error:
+        except (Exception, DatabaseError) as error:
             print(error.args)
  
     def commit(self):

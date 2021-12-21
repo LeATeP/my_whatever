@@ -1,0 +1,63 @@
+#!/bin/env python3
+
+from os import environ
+from sys import argv, path
+env = environ.get
+
+
+path.append(env("GAME")) # my_whatever/game_docker
+from sql.sql_query import psql
+from colors import fg_rgb
+
+class fetch_data():
+    def __init__(self) -> None:
+        '''possible flags: -s[select] for specific value-t[table] for specific table 
+            -i[index] or -n[name] for identifying specific item'''
+
+        self.p = psql()
+
+        # first sql line
+        if '-t' in argv: # table
+            index = argv.index('-t') + 1 # get next value after (flag)
+            value = argv[index]
+            self.cmd = f'select * from {value}\n'
+        else:
+            self.cmd = f'select * from items\n'
+              
+        # second sql line
+        if '-i' in argv: # index
+            index = argv.index('-i') + 1 # get next value after (flag)
+            value = argv[index]
+            self.cmd += f'where id = {value}'
+        elif '-n' in argv: # name
+            index = argv.index('-i') + 1 # get next value after (flag)
+            value = argv[index]
+            self.cmd += f'where name = {value}'
+        self.cmd += ';'
+        
+
+        try:
+            self.p.exec(self.cmd)
+            fetched_data = self.p.fetch_dict()
+
+            self.process_data(fetched_data)
+            
+        except (Exception) as error:
+            print(error.args)
+
+
+    def process_data(self, data):
+        for item in data.values():
+            item_name, item_amount = str(item['name']), str(item['amount'])
+
+            text_line = f'{item_name}: {item_amount}'
+            print(fg_rgb(text_line))
+
+if __name__ == "__main__":
+    fetch_data()
+
+
+
+
+
+
