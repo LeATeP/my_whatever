@@ -14,21 +14,29 @@ class psql:
                            password=str(env("POSTGRES_PASSWORD")))
         self.curs = self.conn.cursor()
         
-    def cmd(self, cmd):
+    def exec(self, cmd):
         try:
             self.curs.execute(cmd)
-            self.conn.commit()
-
-            fetch = self.curs.fetchall()
-            row_name = [n[0] for n in self.curs.description]
-            
-            data = {}
-            for i in range(len(fetch)):
-                data[i] = dict(zip(row_name, fetch[i]))
-            
-            return data
-           
-
+    
         except Exception as error:
             print(error.args)
-            
+ 
+    def commit(self):
+        self.conn.commit()
+        
+        
+    def fetch_dict(self):       
+        fetch = self.curs.fetchall()
+        row_name = [n[0] for n in self.curs.description]
+        
+        data = {}
+        for i in range(len(fetch)):
+            data[i] = dict(zip(row_name, fetch[i]))
+        
+        return data
+        
+        
+        
+        
+        
+        

@@ -17,24 +17,33 @@ class give_loot:
         # get units that earned
         # give them xp and stuff, ig in proportion to the dmg they did 
         
-        all_mobs = self.cmd('''select * from mobs
-                            where hp = 0;''')
+        all_mobs = self.get_dead_mobs()
+        
         for n in all_mobs.values():
             if n['hp'] == 0:
-                unit = self.cmd('''update worker_info
-                         set xp = xp + 10
-                         where id = 1
-                         returning *;''')
-                print(f"xp + 10, total {unit[0]['xp']}")
                 
-                self.cmd(f'''delete from mobs
-                         where id = {n['id']}
-                         returning *;''')
+                self.give_xp(1, 10)
+                id = n['id']
+                
+                self.delete_mob(id)
             
         
+    def get_dead_mobs(self):
+        return self.cmd('''select * from mobs where hp = 0''')
 
+    def give_xp(self, id: int, xp: int = 10):
+        unit = self.cmd(f'''update worker_info
+                 set xp = xp + {xp}
+                 where id = {id}
+                 returning *;''')
         
+        print(f"xp + 10, total {unit[0]['xp']}")
+        return True
 
+    def delete_mob(self, id: int):
+        self.cmd(f'''delete from mobs
+                 where id = {id}
+                 returning *;''')
 
 
 if __name__ == "__main__":

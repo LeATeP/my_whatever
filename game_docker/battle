@@ -18,40 +18,55 @@ from sql.sql_query import psql
 # action 4: if unit survive and mob is dead, generate loot
 
 class battle:
-    def start(self, unit_id = 2, enemy_id = 2) -> None:
-        cmd = psql().cmd
+    def __init__(self, unit_id, enemy_id) -> None:
+        self.p = psql()
         
+        self.unit_id = unit_id
+        self.enemy_id = enemy_id
+    
+    def start(self) -> None:
         while True:
-            unit = cmd(f'''select * from worker_info
-                       where id = {unit_id};''')[0]
-            enemy = cmd(f'''select * from mobs
-                        where id = {enemy_id};''')[0]
+            unit = self.get_units_data('unit')
+            enemy = self.get_units_data('enemy')
             
             if unit['hp'] <= 0 or enemy['hp'] <= 0:
                 break
-                        
             
+            unit = self.attack_('unit')
+            enemy = self.attack_('enemy')                        
 
-            unit = cmd(f'''update worker_info
-                set hp = hp - (select attack from mobs where id = {enemy_id})
-                where id = {unit_id}
-                returning *;''')[0]
-            enemy = cmd(f'''update mobs
-                set hp = hp - (select attack from worker_info where id = {unit_id})
-                where id = {enemy_id}
-                returning *;''')[0]
             print(f"unit_hp: {unit['hp']}/{unit['max_hp']}")
             print(f"enemy_hp: {enemy['hp']}/{enemy['max_hp']}")
 
+    def get_units_data(self, mod: str):
+        if mod == 'unit':
+            self.p.exec(f'''select * from worker_info
+                    where id = {self.unit_id};''')
+            return self.p.fetch_dict()[0]
+        
+        elif mod == 'enemy':
+            self.p.exec(f'''select * from mobs
+                    where id = {self.enemy_id};''')
+            return self.p.fetch_dict()[0]
 
-    def asd():
-        pass
-
+    def attack_(self, mod):
+        if mod == 'unit':
+            self.p.exec(f'''update worker_info
+                set hp = hp - (select attack from mobs where id = {self.enemy_id})
+                where id = {self.unit_id}
+                returning *;''')
+            return self.p.fetch_dict()[0]
+            
+        elif mod == 'enemy':
+            self.p.exec(f'''update mobs
+                set hp = hp - (select attack from worker_info where id = {self.unit_id})
+                where id = {self.enemy_id}
+                returning *;''')
+            return self.p.fetch_dict()[0]
 
 
 if __name__ == "__main__":
-    # start_battle()
-    battle().start()
-
+    b1 = battle(argv[1], argv[2])
+    b1.start()
 
 
