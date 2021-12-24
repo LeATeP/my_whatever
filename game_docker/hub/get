@@ -1,5 +1,6 @@
 #!/bin/env python3
 
+from prettytable import PrettyTable
 from os import environ
 from sys import argv, path
 env = environ.get
@@ -24,19 +25,24 @@ class fetch_data():
         try:
             self.p.exec(self.cmd)
             fetched_data = self.p.fetch_dict()
-
-            self.process_data(fetched_data)
+            
+            self.make_table(fetched_data)
             
         except (Exception) as error:
             print(error.args)
 
 
-    def process_data(self, data):
+    def make_table(self, data):
+        keys = data[0].keys()
+        table = PrettyTable(list(keys))
+        
         for item in data.values():
-            item_name, item_amount = str(item['name']), str(item['amount'])
-
-            text_line = f'{item_name}: {item_amount}'
-            print(fg_rgb(text_line))
+            # item['grade'] = fg_rgb(item['grade'])
+            qq = list(item.values())
+            
+            table.add_row(qq)
+        
+        print(table)
 
     def first_sql_line(self):
         if '-t' in argv: # table
