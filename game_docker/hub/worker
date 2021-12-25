@@ -9,24 +9,33 @@ from sql.sql_query import psql
 
 class work_class:
     def __init__(self) -> None:
-        self.cmd = psql().cmd
+        self.p = psql()
         self.req_resource = 'Rock'
         self.summom_cost = 10
     
     def start_work(self):
         try:
-            updated_amount = self.cmd(f'''update items
-                set amount = amount - {self.summom_cost}
-                where name = '{self.req_resource}'
-                returning amount;''')
-            print('Your balance:', updated_amount[0]['amount'])
-
-            worker = self.cmd('''insert into worker (name) 
+            cmd = f'''update items 
+            set amount = amount - {self.summom_cost} 
+            where name = '{self.req_resource}' 
+            returning amount;'''
+            self.p.exec(cmd); self.p.commit()
+            amount = self.p.fetch_dict()
+            
+            print('Your balance:', amount[0]['amount'])
+            
+            self.p.exec('''insert into worker (name) 
                                 values ('Human') 
                                 returning id, name, grade, level, job;''')
-            worker_info = self.cmd(f'''insert into worker_info (worker_id)
+            self.p.commit()
+            worker = self.p.fetch_dict()
+            
+            self.p.exec(f'''insert into worker_info (worker_id)
                               values ({worker[0]['id']})
                               returning *;''')
+            self.p.commit()
+            worker_info = self.p.fetch_dict()
+            
             [print(f"{i}: {worker[0][i]}") for i in worker[0]]
             print(worker_info)
         except (Exception) as error:
@@ -36,7 +45,7 @@ class work_class:
 
     def check_stock(self):
         try:
-            check_quantity = self.cmd('''select amount from items
+            check_quantity = self.p.exec('''select amount from items
                                  where name = 'Rock';''')
             for n in check_quantity:
                 if check_quantity[n]['amount'] < self.summon_cost:
