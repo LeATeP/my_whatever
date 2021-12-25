@@ -45,22 +45,21 @@ class fetch_data():
         print(table)
 
     def first_sql_line(self):
-        if '-t' in argv: # table
-            index = argv.index('-t') + 1 # get next value after (flag)
-            value = argv[index]
-            self.cmd = f'select * from {value}\n'
+        if len(argv) > 1: # table
+            self.cmd = f'select * from {argv[1]}\n'
         else:
             self.cmd = f'select * from items\n'
 
     def second_sql_line(self):
-        if '-i' in argv: # index
-            index = argv.index('-i') + 1
-            value = argv[index]
-            self.cmd += f'where id = {value}'
-        elif '-n' in argv: # name
-            index = argv.index('-n') + 1
-            value = argv[index]
-            self.cmd += f'where name = {value}'
+        keys = {'-i': 'id =',
+                '-n': 'name ='}
+        for n in keys:
+            if n in argv: # index
+                index = argv.index(n) + 1
+                value = argv[index]
+                self.cmd += f"where {keys[n]} '{value}'"
+                break
+        
         self.cmd += ';'
         
 
