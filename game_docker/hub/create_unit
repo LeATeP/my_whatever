@@ -13,7 +13,7 @@ class work_class(psql):
     def __init__(self) -> None:
         psql.__init__(self)
         
-        self.req_resource = 'Rock'
+        self.req_resource = 'energy_rock'
         self.summom_cost = 10
     
     def start_work(self):

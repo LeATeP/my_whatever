@@ -57,10 +57,10 @@ class fetch_data():
             if n in argv: # index
                 index = argv.index(n) + 1
                 value = argv[index]
-                self.cmd += f"where {keys[n]} '{value}'"
+                self.cmd += f"where {keys[n]} '{value}'\n"
                 break
         
-        self.cmd += ';'
+        self.cmd += 'order by id;'
         
 
 if __name__ == "__main__":

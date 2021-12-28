@@ -18,9 +18,11 @@ class psql:
     def exec(self, cmd):
         try:
             self.curs.execute(cmd)
+            return True
+        
         except (Exception, DatabaseError) as error:
             print(error.args)
-        
+            return False
         
     def fetch_dict(self):       
         fetch = self.curs.fetchall()
