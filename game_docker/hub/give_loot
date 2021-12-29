@@ -9,35 +9,50 @@ path.append(env("GAME")) # my_whatever/game_docker
 from sql.sql_query import psql
 
 
-class give_loot:
+class give_loot(psql):
     def __init__(self) -> None:
-        self.cmd = psql().cmd
-    
+        psql.__init__(self)
+        
+
     def give(self):
         # get units that earned
         # give them xp and stuff, ig in proportion to the dmg they did 
-        
-        all_mobs = self.get_dead_mobs()
-        
-        for n in all_mobs.values():
-            if n['hp'] == 0:
+        while True:
+            mob_info = self.get_dead_mobs()
                 
-                self.give_xp(1, 10)
-                id = n['id']
+            if mob_info:
                 
-                self.delete_mob(id)
+                xp_amount = mob_info['level'] * 10
+                self.give_xp(id=mob_info['last_attacker'], xp=xp_amount)
+                
+                # comfirmation
+                x = self.exec(f"update cave_1 set clear = true where id = {mob_info['id']};")
+                print(x)
+            else:
+                print('no matching mobs')
+            break
+            
+            
+            
             
         
     def get_dead_mobs(self):
-        return self.cmd('''select * from mobs where hp = 0''')
+        cmd = '''select id, level, last_attacker from cave_1 where hp = 0 and clear = false limit 1'''
+        self.exec(cmd)
+        data = self.fetch_dict()
+        if data:
+            data = data[0]
+        return data
+        
 
     def give_xp(self, id: int, xp: int = 10):
-        unit = self.cmd(f'''update worker_info
+        self.exec(f'''update unit_info
                  set xp = xp + {xp}
-                 where id = {id}
+                 where unit_id = {id}
                  returning *;''')
+        unit = self.fetch_dict()[0]
         
-        print(f"xp + 10, total {unit[0]['xp']}")
+        print(f"xp + 10, total {unit['xp']}")
         return True
 
     def delete_mob(self, id: int):
