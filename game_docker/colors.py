@@ -4,9 +4,12 @@ from os import environ
 from random import choice, randint
 
 
-def fg_rgb(text: str): 
-    return f"\u001b[38;2;{randint(0, 255)};{randint(0, 255)};{randint(0,255)}m{text}\u001b[0m"
-
+def fg_rgb(text: str):
+    r,g,b = randint(0, 255), randint(0, 255), randint(0, 255)
+    text = f"\u001b[38;2;{r};{g};{b}m"
+    text += str(text)
+    text += "\u001b[0m"
+    return text    
 
 def bg_rgb(text: str, r: int = None, g: int = None, b: int = None, mode: str = None):
     colors = {

@@ -28,6 +28,9 @@ class battle(psql):
         while True:
             unit = self.get_units_data('unit')
             enemy = self.get_units_data('enemy')
+
+            if not unit or not enemy:
+                break
             if unit['hp'] <= 0 or enemy['hp'] <= 0:
                 break
             
@@ -37,22 +40,27 @@ class battle(psql):
             print(f"enemy_hp: {enemy['hp']}/{enemy['max_hp']}")
             break
         
-             
-            
             
 
     def get_units_data(self, mod: str):
         if mod == 'unit':
             self.exec(f'''select hp, max_hp from unit_info
                     where unit_id = {self.unit_id};''')
-            data = self.fetch_dict()[0]
-            return data
+            data = self.fetch_dict()
+            if data:
+                return data[0]
+            print('no unit found')
+            return False
         
         elif mod == 'enemy':
             self.exec(f'''select hp, max_hp from cave_1
                     where id = {self.enemy_id};''')
-            data = self.fetch_dict()[0]
-            return data
+            data = self.fetch_dict()
+            if data:
+                return data[0]
+            print('no enemies found')
+            return False
+
 
     def attack_(self, mod):
         if mod == 'unit':

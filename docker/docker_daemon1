@@ -1,6 +1,7 @@
-docker run --privileged --name some-docker -d \
-    --network some-network --network-alias docker \
+sudo docker run --privileged --name docker_connector -d \
+    --restart unless-stopped \
+    --network docker_server --network-alias docker \
     -e DOCKER_TLS_CERTDIR=/certs \
-    -v some-docker-certs-ca:/certs/ca \
-    -v some-docker-certs-client:/certs/client \
+    -v docker_ca:/certs/ca \
+    -v docker_ca_client:/certs/client \
     docker:dind
