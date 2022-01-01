@@ -1,8 +1,10 @@
 #!/bin/env bash
 
 ff () {
-sudo docker inspect -f \
-    '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}} [{{.Config.Hostname}} {{.Config.Image}}]' $(sudo docker ps -q)
+for i in $(sudo docker ps -q); do
+    sudo docker inspect -f \
+    '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}} [{{.Config.Hostname}} {{.Config.Image}}]' "$i";
+done
 }
 
 ff
