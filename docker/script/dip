@@ -1,0 +1,7 @@
+#!/bin/env bash
+
+for i in $(d ps -q); do
+printf "%s [%s]\n" \
+    "$(sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$i")" \
+    "$(sudo docker inspect -f '{{.Config.Hostname}} {{.Config.Image}}' "$i")";
+done
