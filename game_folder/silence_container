@@ -1,0 +1,9 @@
+#!/bin/env sh
+
+net="p_net"
+
+docker run -d  \
+    --network "$net" \
+    -v $DGAME:/game_docker \
+    -w /game_docker \
+    silent_python "$@"

@@ -1,6 +1,0 @@
-sudo docker run -it --network docker_con \
-    --name client \
-    --restart unless-stopped \
-    -e DOCKER_TLS_CERTDIR=/certs \
-    -v docker_ca_client:/certs/client:ro \
-    docker:latest

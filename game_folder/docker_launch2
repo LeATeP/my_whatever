@@ -1,0 +1,9 @@
+#!/bin/env bash
+
+sudo docker run -it --rm \
+    --network docker_server \
+    --name docker_client \
+    -e DOCKER_TLS_CERTDIR=/certs \
+    -v docker_ca_client:/certs/client:ro \
+    -v $SCR:/whatever \
+    docker:latest

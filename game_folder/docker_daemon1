@@ -1,7 +1,11 @@
+#!/bin/env bash
+
 sudo docker run --privileged --name docker_connector -d \
     --restart unless-stopped \
     --network docker_server --network-alias docker \
     -e DOCKER_TLS_CERTDIR=/certs \
     -v docker_ca:/certs/ca \
     -v docker_ca_client:/certs/client \
+    -v $DGAME:/my_whatever/game_docker \
+    -v $SCR/game_folder:/my_whatever/folder \
     docker:dind

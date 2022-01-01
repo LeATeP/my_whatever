@@ -7,7 +7,7 @@ p_user="postgres"
 p_db="sql"
 
 if test "$1" = "create"; then # create container
-sudo docker run -dp 5432:5432 \
+docker run -dp 5432:5432 \
     --name "$p_user" \
     --restart unless-stopped \
     --network p_net --network-alias postgres \
