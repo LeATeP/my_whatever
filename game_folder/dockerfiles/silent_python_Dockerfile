@@ -1,4 +1,4 @@
-FROM python
+FROM python:alpine
 
 RUN pip install --no-cache-dir psycopg2-binary
 
@@ -6,7 +6,5 @@ ENV POSTGRES_HOST=postgres
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_DB=sql
 ENV POSTGRES_PASSWORD=123
-
-WORKDIR /game_docker
 
 ENTRYPOINT [ "python3" ]

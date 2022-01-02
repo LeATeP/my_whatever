@@ -2,8 +2,9 @@
 
 net="p_net"
 
-docker run -d  \
+sudo docker run -d --rm \
     --network "$net" \
-    -v $DGAME:/game_docker \
+    -v /home/leatep/scripts/game_docker:/game_docker \
+    -e GAME="/game_docker" \
     -w /game_docker \
-    silent_python "$@"
+    silent_python3 "$@"

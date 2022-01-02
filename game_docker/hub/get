@@ -8,7 +8,7 @@ env = environ.get
 
 path.append(env("GAME")) # my_whatever/game_docker
 from sql.sql_query import psql
-from colors import fg_rgb
+from utils.colors import fg_rgb
 
 class fetch_data():
     def __init__(self) -> None:
