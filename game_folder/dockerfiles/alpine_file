@@ -1,0 +1,10 @@
+FROM alpine
+
+RUN apk update && apk add postgresql-client && apk add bash
+
+ENV PSQL_HOST=postgres
+ENV PSQL_USER=postgres
+ENV PSQL_DB=sql
+ENV PGPASSWORD="123"
+
+ENTRYPOINT [ "bash" ]

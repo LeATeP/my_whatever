@@ -1,35 +1,35 @@
 #!/bin/env python3
-from sys import argv
-from os import environ
-from random import choice, randint
+from sys import argv, stdin
+from random import randint
 
-
-def fg_rgb(text: str):
-    r,g,b = randint(0, 255), randint(0, 255), randint(0, 255)
-    text = f"\u001b[38;2;{r};{g};{b}m"
-    text += str(text)
-    text += "\u001b[0m"
-    return text    
-
-def bg_rgb(text: str, r: int = None, g: int = None, b: int = None, mode: str = None):
-    colors = {
-    "black": "\u001b[40m" + text + "\u001b[0m",
-    "red": f"\u001b[41m{text}\u001b[0m",
-    "green": "\u001b[42m",
-    "yellow": "\u001b[43m",
-    "blue": "\u001b[44m",
-    "magenta": "\u001b[45m",
-    "cyan": "\u001b[46m",
-    "white": "\u001b[47m",
-    }
-    if r and g and b:
-        return f"\u001b[48;2;{r};{g};{b}m{text}\033[0m"
-    if mode:
-        return colors[mode]
-    return None
+class fg_color():
+    def __init__(self) -> None:
+        self.r, self.g, self.b = int, int, int
+        self.gen_fg_rgb()
     
-# x = "Hello world!"
-# y = fg_rgb(x, mode="red")
-# print(y)
+    def gen_fg_rgb(self):
+        self.r, self.g, self.b = randint(0, 255), randint(0, 255), randint(0, 255)
 
+    def put_color(self, text):
+        text = f"\u001b[38;2;{self.r};{self.g};{self.b}m{text}"
+        text += "\u001b[0m"
+        return text
+    
+    
+def fg_rgb(text):
+    r,g,b = randint(0, 255), randint(0, 255), randint(0, 255)
+    text = f"\u001b[38;2;{r};{g};{b}m{text}"
+    text += "\u001b[0m"
+    return text
 
+# def bg_rgb(text):
+#     colors = "black": "\u001b[40m" + text + "\u001b[0m", # 40-47m
+#         return f"\u001b[48;2;{r};{g};{b}m{text}
+
+    
+
+# pipe_line
+# color = fg_color()
+# for n in stdin.readlines():
+#     n = n.strip('\n')
+#     print(color.put_color(n))

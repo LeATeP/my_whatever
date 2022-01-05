@@ -31,7 +31,7 @@ class mining(psql):
             
             good = True    
             while good:
-                sleep(1)
+                sleep(0.1)
                 drop = self.gen_drop()
                 print(drop)
                 for item in drop:
