@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [[ $1 == 'c' ]]; then
+    date="$(date +"%Y%m_%d_%H%M%S")"
+    folder="$ZET"/"$date"
+    file="$folder/README.md"
+
+    mkdir "$folder" && \
+    touch "$file" && \
+    if [[ $2 ]]; then
+        printf "# %s" "$2" > "$file"
+        fi
+    code "$file"
+exit; fi
+
