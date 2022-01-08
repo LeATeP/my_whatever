@@ -1,0 +1,12 @@
+
+# creating cluster
+- kind create cluster --image kindest/node:latest
+
+# check cluster info 
+1. 'k cluster-info --context kind-kind'
+
+# access pod shell 
+- kubectl exec --stdin --tty ubuntu -- /bin/bash
+
+# dashboard token
+- k -n kubernetes-dashboard get secret admin-user-token-rjwhf -o go-template="{{.data.token | base64decode}}"

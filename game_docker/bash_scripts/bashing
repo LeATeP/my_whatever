@@ -1,9 +1,0 @@
-#!/bin/env bash
-
-
-# declare -a x="$(pdb q 'select name from items;')"
-
-x="$(pdb q 'select name from items;')"
-# declare -t arr < "$x"
-
-for i in "${x[@]}"; do echo "$i - asd"; done

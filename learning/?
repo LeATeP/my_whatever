@@ -1,3 +1,8 @@
 #!/bin/env bash
 
+if test $1 == 'l'; then
+lynx https://duckduckgo.com/?q="$2"
+exit; fi
+
+
 w3m https://duckduckgo.com/?q="$*"

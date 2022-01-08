@@ -1,0 +1,8 @@
+#!/bin/env bash
+
+
+docker run -it \
+    --network p_net \
+    -v /home/leatep/scripts/game_docker/bash_scripts/:/game \
+    -w /game \
+    alpine_bash
