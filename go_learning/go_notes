@@ -1,0 +1,9 @@
+# module's
+
+# declared import module, to locate your module, 
+# need to specifically say where the module is located
+# import "leatep/hello"
+# - go mod edit -replace leatep/hello=../hello *(where hello folder is)
+# and then 
+# - go mod tidy  # so he locate the module
+
