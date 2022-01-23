@@ -7,3 +7,9 @@
 # and then 
 # - go mod tidy  # so he locate the module
 
+# go slice = (list/array)
+# - name[string] (list of strings or anything)
+
+# go map = (dict / json but not quite)
+# map[string]string (map of string keys, and string values)
+
