@@ -1,8 +1,7 @@
 #!/bin/env bash
 
 
-docker run -it \
+docker run -it --rm \
     --network p_net \
-    -v /home/leatep/scripts/game_docker/bash_scripts/:/game \
-    -w /game \
+    -v /home/leatep/code/Vaava/:/Vaava \
     alpine_bash
