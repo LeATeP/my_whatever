@@ -17,7 +17,7 @@ func Hello(name string) (string, error) {
 	return msg, nil
 }
 
-func FormatList(names []string) (map[string]string, error) {
+func Make_Hellos(names []string) (map[string]string, error) {
 	if len(names) == 0 {
 		return nil, errors.New("Empty list")
 	}	

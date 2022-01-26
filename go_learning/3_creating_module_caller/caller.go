@@ -21,7 +21,7 @@ func main() {
 		"2qwe",
 		"3zxc",
 	}
-	vars, err := creating_module.FormatList(names)
+	vars, err := creating_module.Make_Hellos(names)
 	if err != nil {log.Fatal(err)}
 
 	for i, v := range vars {
