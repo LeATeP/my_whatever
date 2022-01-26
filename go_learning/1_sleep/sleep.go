@@ -5,9 +5,24 @@ import (
 	"time"
 )
 
+// #include <unistd.h>
+// #include <errno.h>
+// int usleep(useconds_t usec);
+// import "C"
+
+
 
 func main () {
-	for {
-	time.Sleep(1 * time.Second)
-	fmt.Printf("good\n")
-}}
+	start := time.Now()
+
+	var x int = 0
+
+	for x < 1000000{
+		x++
+		// C.usleep(1000)
+		time.Sleep(1 * time.Millisecond)
+	}
+	
+	duration := time.Since(start)
+	fmt.Println(duration)
+}
