@@ -5,6 +5,7 @@ import (
     "database/sql"
     "fmt"
 	"log"
+	"time"
     _ "github.com/lib/pq"
 )
 
@@ -30,11 +31,13 @@ func main() {
 	establish_conn()
     defer db.Close() // close database
 
-	items, err := getItems()
-	CheckError(err, "Failed exec getItems")
-	for _, value := range items {
-		fmt.Println(value.id, value.name, value.amount)
-	}
+
+	updateItem()
+	// items, err := getItems()
+	// CheckError(err, "Failed exec getItems")
+	// for _, value := range items {
+		// fmt.Println(value.id, value.name, value.amount)
+	// }
 }
 
 func establish_conn() {
@@ -51,6 +54,7 @@ func establish_conn() {
     CheckError(err, "failed ping")
 
     fmt.Println("Connected!")
+
 }
 
 func getItems() ([]Item, error) {
@@ -71,6 +75,14 @@ func getItems() ([]Item, error) {
 	CheckError(err, "attempt ending rows.Err")
 
 	return items, nil
+}
+
+func updateItem() {
+	for {
+		db.Exec("update items set amount = amount + 1 where id = 1;")
+		fmt.Println("+1")
+		time.Sleep(10 * time.Millisecond)
+	}
 }
 
 func CheckError(err error, error_name string) {

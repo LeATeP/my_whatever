@@ -1,0 +1,16 @@
+# FROM golang as builder
+# 
+# WORKDIR /app
+# COPY . .
+# RUN go mod download
+# RUN CGO_ENABLED=0 go build .
+
+# FROM scratch
+# 
+# COPY --from=builder /app/db_access /
+# 
+# CMD [ "/db_access" ]
+
+FROM scratch
+COPY db_access /
+CMD [ "/db_access" ]
