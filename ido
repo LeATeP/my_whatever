@@ -1,13 +1,18 @@
 #!/bin/bash
 
-commit () {
+ido_commit () {
     read -r -p "Commit: " user_conf
     if [[ $user_conf == "y" ]]; then
-        (cd "$ZET" && \
-        git add ./"$date" && \
+        (cd "$ZET" &&
+        git add ./"$date" &&
         git commit -m "add stuff"
         git push 2> /dev/null &)
     fi
+}
+
+ido_status () {
+    (cd "$ZET" &&
+    git status)
 }
 
 
@@ -16,18 +21,17 @@ if [[ $1 == "c" ]]; then
     folder="$ZET"/"$date"
     file="$folder/README.md"
 
-    mkdir "$folder" && \
+    mkdir "$folder" &&
     touch "$file"
     if [[ $2 ]]; then
         printf "# %s" "$2" > "$file"
         fi
     vi "$file"
     
-    commit
+    ido_commit
+elif [[ $1 == "status" ]]; then
+    ido_status
 exit; fi
 
-if [[ $1 == "" ]]; then
-    commit
-exit; fi
 
 
