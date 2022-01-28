@@ -6,7 +6,7 @@ if [[ $1 == 'c' ]]; then
     file="$folder/README.md"
 
     mkdir "$folder" && \
-    touch "$file" && \
+    touch "$file"
     if [[ $2 ]]; then
         printf "# %s" "$2" > "$file"
         fi
