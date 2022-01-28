@@ -16,11 +16,11 @@ func main () {
 	start := time.Now()
 
 	var x int = 0
+	t := 1 * time.Millisecond
 
 	for x < 1000000{
 		x++
-		// C.usleep(1000)
-		time.Sleep(1 * time.Millisecond)
+		time.Sleep(t)
 	}
 	
 	duration := time.Since(start)

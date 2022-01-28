@@ -12,7 +12,7 @@ import (
 var db *sql.DB
 
 const (
-    host     = "localhost"
+    host     = "postgres"
     port     = 5432
     user     = "postgres"
     password = "123"
@@ -78,10 +78,10 @@ func getItems() ([]Item, error) {
 }
 
 func updateItem() {
+	tick := 1*time.Second
 	for {
 		db.Exec("update items set amount = amount + 1 where id = 1;")
-		fmt.Println("+1")
-		time.Sleep(10 * time.Millisecond)
+		time.Sleep(tick)
 	}
 }
 
