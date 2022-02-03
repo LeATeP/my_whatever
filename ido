@@ -10,6 +10,16 @@ ido_commit () {
     fi
 }
 
+ido_commit_edit () {
+    read -r -p "Commit: " user_conf
+    if [[ $user_conf == "y" ]]; then
+        (cd "$ZET" &&
+        git add "$file_loc"
+        git commit -a -m "add notes"
+        git push &> /dev/null &)
+    fi
+}
+
 ido_status () {
     (cd "$ZET" &&
     git status)
@@ -31,7 +41,10 @@ ido_edit () {
     done; IFS="$oldIFS"
     
     read -rp "Choice: " user_choice
-    vi "${loc["$user_choice"]}"
+    file_loc="${loc["$user_choice"]}"
+    vi "$file_loc"
+
+    ido_commit_edit
 }
 
 # 
