@@ -6,7 +6,7 @@ ido_commit () {
         (cd "$ZET" &&
         git add ./"$date" &&
         git commit -m "add notes"
-        git push 2> /dev/null &)
+        git push &> /dev/null &)
     fi
 }
 
@@ -31,7 +31,7 @@ ido_edit () {
     done; IFS="$oldIFS"
     
     read -rp "Choice: " user_choice
-    code "${loc["$user_choice"]}"
+    vi "${loc["$user_choice"]}"
 }
 
 # 
