@@ -4,18 +4,8 @@ ido_commit () {
     read -r -p "Commit: " user_conf
     if [[ $user_conf == "y" ]]; then
         (cd "$ZET" &&
-        git add ./"$date" &&
+        git add "$1" &&
         git commit -m "add notes"
-        git push &> /dev/null &)
-    fi
-}
-
-ido_commit_edit () {
-    read -r -p "Commit: " user_conf
-    if [[ $user_conf == "y" ]]; then
-        (cd "$ZET" &&
-        git add "$file_loc"
-        git commit -a -m "add notes"
         git push &> /dev/null &)
     fi
 }
@@ -44,7 +34,7 @@ ido_edit () {
     file_loc="${loc["$user_choice"]}"
     vi "$file_loc"
 
-    ido_commit_edit
+    ido_commit "$file_loc"
 }
 
 # 
@@ -70,7 +60,7 @@ if [[ $1 == "c" ]]; then
         fi
     vi "$file"
     
-    ido_commit
+    ido_commit "$date"
 elif [[ $1 == "st" ]]; then
     ido_status
 elif [[ $1 == "ed" ]]; then
