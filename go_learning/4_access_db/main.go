@@ -5,7 +5,7 @@ import (
     "database/sql"
     "fmt"
 	"log"
-	"time"
+	// "time"
     _ "github.com/lib/pq"
 )
 
@@ -31,8 +31,12 @@ func main() {
 	establish_conn()
     defer db.Close() // close database
 
-
-	updateItem()
+	total := 0
+	for i:=2; i<1000; i++ {
+		total += i*i
+		updateItem(i, i*i, total, "mortal")
+	}
+	// updateItem()
 	// items, err := getItems()
 	// CheckError(err, "Failed exec getItems")
 	// for _, value := range items {
@@ -77,14 +81,12 @@ func getItems() ([]Item, error) {
 	return items, nil
 }
 
-func updateItem() {
-	tick := 1*time.Second
-	for {
-		_, err := db.Exec("update items set amount = amount + 1 where id = 1;")
-		CheckError(err, "attemping to updateItem...:",)
-
-		time.Sleep(tick)
-	}
+func updateItem(level, xp, total_xp int, grade string) {
+	sql_cmd := fmt.Sprintf("insert into levels (level, grade, req_xp, total_xp) values (%v, '%v', %v, %v);", level, grade, xp, total_xp)
+	
+	_, err := db.Exec(sql_cmd)
+	CheckError(err, "attemping to updateItem...:",)
+	
 }
 
 func CheckError(err error, error_name string) {

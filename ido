@@ -17,13 +17,29 @@ ido_status () {
     (cd "$ZET" &&
     git status)
 }
+
+ido_list () {
+    # create 2 lists of string to show in select, and choice location.. 
+    # loc[0] == words[0], and all i need is for loop by length 
+
+    list=$(find "$ZET" -name README.md)
+    # name["nice"]="qwe"
+    # echo "${name["nice"]}"
+    for i in $list; do
+        printf "%s -------- %s\n" "$(head -1 < "$i")" "$i"
+    done
+}
+ido_edit () {
+    list=$(find "$ZET" -name README.md)
+    # select i in "$list"; do
+}
 # 
 # ido_select () {
     # git_found="$(curl -G https://api.github.com/search/code?q=sql+repo:leatep/zet-notes 2>/dev/null | jq '.items | .[] | .path')"
     # for i in $git_found; do echo "$i"; done
     # echo "$git_found"
-    var="$ZET/${var:1:-1}"
-    head -1 < "$var"
+    # var="$ZET/${var:1:-1}"
+    # head -1 < "$var"
 # 
 # }
 
@@ -43,8 +59,8 @@ if [[ $1 == "c" ]]; then
     ido_commit
 elif [[ $1 == "st" ]]; then
     ido_status
-elif [[ $1 == "sl" ]]; then
-    ido_select
+elif [[ $1 == "f" ]]; then
+    ido_list
 exit; fi
 
 
