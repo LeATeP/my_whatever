@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-# curl -G https://api.github.com/search/code?q=sql%20is+repo:leatep/zet-notes 2>/dev/null | jq '.items | .[] | .path'
-
 ido_commit () {
     read -r -p "Commit: " user_conf
     if [[ $user_conf == "y" ]]; then
@@ -18,7 +15,7 @@ ido_status () {
     git status)
 }
 
-ido_list () {
+ido_edit () {
     location="$(find "$ZET" -name README.md)"
  
     oldIFS="$IFS"; IFS=$'\n'
@@ -27,26 +24,16 @@ ido_list () {
     for i in $location; do
         txt="$(head -1 < "$i")"
 
-        printf " -- %s. %s" "$num" "${txt:2}"
+        printf " -- %s. %s\n" "$num" "${txt:2}"
         loc+=("$i")
         num="$(echo "$num + 1" | bc)"
 
-        echo "$num"
     done; IFS="$oldIFS"
     
     read -rp "Choice: " user_choice
-    code "${loc["$user_choice"]}"    
+    code "${loc["$user_choice"]}"
+}
 
-# 
-    # for i in $location; do
-        # head -1 < "$i"
-    # done
-    # select i in {0..3}; do echo "$i"; done
-}
-ido_edit () {
-    list=$(find "$ZET" -name README.md)
-    # select i in "$list"; do
-}
 # 
 # ido_select () {
     # git_found="$(curl -G https://api.github.com/search/code?q=sql+repo:leatep/zet-notes 2>/dev/null | jq '.items | .[] | .path')"
@@ -73,8 +60,8 @@ if [[ $1 == "c" ]]; then
     ido_commit
 elif [[ $1 == "st" ]]; then
     ido_status
-elif [[ $1 == "f" ]]; then
-    ido_list
+elif [[ $1 == "ed" ]]; then
+    ido_edit
 exit; fi
 
 
