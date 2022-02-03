@@ -19,15 +19,29 @@ ido_status () {
 }
 
 ido_list () {
-    # create 2 lists of string to show in select, and choice location.. 
-    # loc[0] == words[0], and all i need is for loop by length 
+    location="$(find "$ZET" -name README.md)"
+ 
+    oldIFS="$IFS"; IFS=$'\n'
+    num=$"0"
 
-    list=$(find "$ZET" -name README.md)
-    # name["nice"]="qwe"
-    # echo "${name["nice"]}"
-    for i in $list; do
-        printf "%s -------- %s\n" "$(head -1 < "$i")" "$i"
-    done
+    for i in $location; do
+        txt="$(head -1 < "$i")"
+
+        printf " -- %s. %s" "$num" "${txt:2}"
+        loc+=("$i")
+        num="$(echo "$num + 1" | bc)"
+
+        echo "$num"
+    done; IFS="$oldIFS"
+    
+    read -rp "Choice: " user_choice
+    code "${loc["$user_choice"]}"    
+
+# 
+    # for i in $location; do
+        # head -1 < "$i"
+    # done
+    # select i in {0..3}; do echo "$i"; done
 }
 ido_edit () {
     list=$(find "$ZET" -name README.md)
@@ -45,7 +59,7 @@ ido_edit () {
 
 
 if [[ $1 == "c" ]]; then
-    date="$(date +"%Y%m_%d_%H%M%S")"
+    date="$(date +"%Y%m%d%H%M%S")"
     folder="$ZET"/"$date"
     file="$folder/README.md"
 
