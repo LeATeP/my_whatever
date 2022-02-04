@@ -19,19 +19,17 @@ func Err(err error) {
 }
 
 func main() {
-	conn, err := net.Dial("tcp", ":9000")
+	conn, err := net.Dial("tcp", "go_server:9000") // start connection
 	Err(err)
-	
 	fmt.Println("client started")
 
-	encoder := gob.NewEncoder(conn)
+	encoder := gob.NewEncoder(conn) // open new thread for connection
 	for n1 := 0; n1 < 10; n1++{
 		
 		p := &P{fmt.Sprint(n1)}
-    	encoder.Encode(p)
+    	encoder.Encode(p) // send msg to server through encoder 
 		
 		time.Sleep(1 * time.Second)
 	}
-    conn.Close()
-    fmt.Println("done")
+    conn.Close() // close connection / unnecessary 
 }

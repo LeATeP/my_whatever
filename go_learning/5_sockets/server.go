@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 	"encoding/gob"
-	"time"
+	// "time"
 )
 type Msg struct {
     M string
@@ -19,15 +19,11 @@ func handleConnection(conn net.Conn) {
 		
 		if msg.M == "" {
 			fmt.Println("Client offline")
+			conn.Close()
 			break
 		}
-		time.Sleep(500 * time.Millisecond)
-		// if  {
-			// log.Fatal("Connection is broken")
-		// }
     	fmt.Printf("Received: %v\n", msg.M);
 	}
-	// conn.Close()
 }
 
 func Err(err error) {
