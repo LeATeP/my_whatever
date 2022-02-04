@@ -5,7 +5,7 @@ ido_commit () {
     if [[ $user_conf == "y" ]]; then
         (cd "$ZET" &&
         git add "$1" &&
-        git commit -m "add notes"
+        git commit -m "$2"
         git push &> /dev/null &)
     fi
 }
@@ -34,7 +34,7 @@ ido_edit () {
     file_loc="${loc["$user_choice"]}"
     vi "$file_loc"
 
-    ido_commit "$file_loc"
+    ido_commit "$file_loc" "$(head -1 < "${file_loc}")"
 }
 
 # 
@@ -56,11 +56,14 @@ if [[ $1 == "c" ]]; then
     mkdir "$folder" &&
     touch "$file"
     if [[ $2 ]]; then
-        printf "# %s" "$2" > "$file"
-        fi
+        title="$2"
+        printf "# %s" "$title" > "$file"
+    else
+        title="add stuff"
+    fi
     vi "$file"
     
-    ido_commit "$date"
+    ido_commit "$date" "$title"
 elif [[ $1 == "st" ]]; then
     ido_status
 elif [[ $1 == "ed" ]]; then
