@@ -1,8 +1,8 @@
-# FROM scratch
-# COPY server /
-# CMD [ "/server" ]
-# 
-
 FROM scratch
-COPY client /
-CMD [ "/client" ]
+COPY server /
+CMD [ "/server" ]
+
+
+# FROM scratch
+# COPY client /
+# CMD [ "/client" ]

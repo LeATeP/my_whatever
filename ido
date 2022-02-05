@@ -19,7 +19,7 @@ ido_edit () {
     location="$(find "$ZET" -name README.md)"
  
     oldIFS="$IFS"; IFS=$'\n'
-    num=$"0"
+    num="0"
 
     for i in $location; do
         txt="$(head -1 < "$i")"

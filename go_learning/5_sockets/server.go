@@ -1,9 +1,11 @@
 package main
+
 import (
 	"fmt"
 	"log"
 	"net"
 	"encoding/gob"
+	handler "leatep/handler"
 	// "time"
 )
 type Msg struct {
@@ -13,17 +15,18 @@ type Msg struct {
 
 func handleConnection(conn net.Conn) {
     dec := gob.NewDecoder(conn)
+	handler.ReceiveHandle()
 	for {
     	msg := &Msg{}
     	dec.Decode(msg)
 		
 		if msg.M == "" {
 			fmt.Println("Client offline")
-			conn.Close()
 			break
 		}
     	fmt.Printf("Received: %v\n", msg.M);
 	}
+	conn.Close()
 }
 
 func Err(err error) {

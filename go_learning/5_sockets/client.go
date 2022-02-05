@@ -6,6 +6,7 @@ import (
     "net"
     "encoding/gob"
 	"time"
+	handler "leatep/handlers"
 )
 
 type P struct {
@@ -18,11 +19,7 @@ func Err(err error) {
 	}
 }
 
-func main() {
-	conn, err := net.Dial("tcp", "go_server:9000") // start connection
-	Err(err)
-	fmt.Println("client started")
-
+func handleConnection(conn net.Conn) {
 	encoder := gob.NewEncoder(conn) // open new thread for connection
 	for n1 := 0; n1 < 10; n1++{
 		
@@ -32,4 +29,15 @@ func main() {
 		time.Sleep(1 * time.Second)
 	}
     conn.Close() // close connection / unnecessary 
+}
+
+func main() {
+	conn, err := net.Dial("tcp", ":9000") // start connection
+	Err(err)
+	fmt.Println("client started")
+
+	go handleConnection(conn)
+	for i:=0; i<100; i++ {
+		fmt.Println(i)
+	}
 }
