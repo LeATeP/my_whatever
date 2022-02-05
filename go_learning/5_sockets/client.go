@@ -6,10 +6,10 @@ import (
     "net"
     "encoding/gob"
 	"time"
-	handler "leatep/handlers"
+	// "leatep/handler"
 )
 
-type P struct {
+type msg struct {
     M string
 }
 
@@ -23,7 +23,7 @@ func handleConnection(conn net.Conn) {
 	encoder := gob.NewEncoder(conn) // open new thread for connection
 	for n1 := 0; n1 < 10; n1++{
 		
-		p := &P{fmt.Sprint(n1)}
+		p := &msg{fmt.Sprint(n1)}
     	encoder.Encode(p) // send msg to server through encoder 
 		
 		time.Sleep(1 * time.Second)
@@ -39,5 +39,6 @@ func main() {
 	go handleConnection(conn)
 	for i:=0; i<100; i++ {
 		fmt.Println(i)
+		time.Sleep(1 * time.Second)
 	}
 }

@@ -5,19 +5,18 @@ import (
 	"log"
 	"net"
 	"encoding/gob"
-	handler "leatep/handler"
+	// "leatep/handler"
 	// "time"
 )
-type Msg struct {
+type msg struct {
     M string
 }
 
 
 func handleConnection(conn net.Conn) {
     dec := gob.NewDecoder(conn)
-	handler.ReceiveHandle()
 	for {
-    	msg := &Msg{}
+    	msg := &msg{}
     	dec.Decode(msg)
 		
 		if msg.M == "" {
