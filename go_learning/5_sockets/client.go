@@ -4,14 +4,10 @@ import (
     "fmt"
     "log"
     "net"
-    "encoding/gob"
+    // "encoding/gob"
 	"time"
-	// "leatep/handler"
+	"leatep/handler"
 )
-
-type msg struct {
-    M string
-}
 
 func Err(err error) {
 	if err != nil {
@@ -19,24 +15,13 @@ func Err(err error) {
 	}
 }
 
-func handleConnection(conn net.Conn) {
-	encoder := gob.NewEncoder(conn) // open new thread for connection
-	for n1 := 0; n1 < 10; n1++{
-		
-		p := &msg{fmt.Sprint(n1)}
-    	encoder.Encode(p) // send msg to server through encoder 
-		
-		time.Sleep(1 * time.Second)
-	}
-    conn.Close() // close connection / unnecessary 
-}
-
 func main() {
 	conn, err := net.Dial("tcp", ":9000") // start connection
 	Err(err)
 	fmt.Println("client started")
 
-	go handleConnection(conn)
+	go handler.SendHandler(conn)
+	go handler.ReceiveHandler(conn)
 	for i:=0; i<100; i++ {
 		fmt.Println(i)
 		time.Sleep(1 * time.Second)

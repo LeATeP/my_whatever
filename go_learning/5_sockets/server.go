@@ -4,28 +4,12 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"encoding/gob"
-	// "leatep/handler"
+	// "encoding/gob"
+	"leatep/handler"
 	// "time"
 )
 type msg struct {
     M string
-}
-
-
-func handleConnection(conn net.Conn) {
-    dec := gob.NewDecoder(conn)
-	for {
-    	msg := &msg{}
-    	dec.Decode(msg)
-		
-		if msg.M == "" {
-			fmt.Println("Client offline")
-			break
-		}
-    	fmt.Printf("Received: %v\n", msg.M);
-	}
-	conn.Close()
 }
 
 func Err(err error) {
@@ -44,6 +28,7 @@ func main() {
 		conn, err := ln.Accept() // listen for clients
 		Err(err)
 		
-		go handleConnection(conn)
+		go handler.ReceiveHandler(conn)
+		go handler.SendHandler(conn)
 	}
 }
