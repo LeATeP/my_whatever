@@ -27,8 +27,8 @@ type Item struct {
 func Exec(cmd string) (result bool, err error) {
 	// os.Getenv("HOSTNAME") # as an example how to get env
 
-	establish_conn()
-    defer db.Close() // close database
+	db1 := psql_connect()
+    defer db1.Close() // close database
 
 	total := 0
 	for i:=2; i<1000; i++ {
@@ -38,7 +38,7 @@ func Exec(cmd string) (result bool, err error) {
 	return
 }
 
-func establish_conn() {
+func psql_connect() (db *sql.DB) {
         // connection string
 	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
@@ -52,6 +52,7 @@ func establish_conn() {
     CheckError(err, "failed ping")
 
     fmt.Println("Connected!")
+	return db
 
 }
 
