@@ -1,4 +1,4 @@
-package dbHandler
+package pdb
  
 import (
     "database/sql"
@@ -18,27 +18,15 @@ const (
     dbname   = "sql"
 )
 
-type Item struct {
-	id string
-	name string
-	amount int
+type Units struct {
+	Id int
+	Name, Fraction, State, Job string
+	Level, Xp int
 }
  
-func Exec(cmd string) (result bool, err error) {
-	// os.Getenv("HOSTNAME") # as an example how to get env
+// os.Getenv("HOSTNAME") # as an example how to get env
 
-	db1 := psql_connect()
-    defer db1.Close() // close database
-
-	total := 0
-	for i:=2; i<1000; i++ {
-		total += i*i
-		updateItem(i, i*i, total, "mortal")
-	}
-	return
-}
-
-func psql_connect() (db *sql.DB) {
+func Psql_connect() {
         // connection string
 	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
@@ -52,36 +40,40 @@ func psql_connect() (db *sql.DB) {
     CheckError(err, "failed ping")
 
     fmt.Println("Connected!")
-	return db
 
 }
 
-func getItems() ([]Item, error) {
-	var items []Item
+func QueryUnits(sql_cmd string) ([]Units, error) {
+	var allUnits []Units
 
-	rows, err := db.Query("Select id, name, amount from items order by id;")
+	rows, err := db.Query(sql_cmd)
 	CheckError(err, "attempt to query db.Query")
 	defer rows.Close()
 
 	for rows.Next() {
-		var itm Item
-		err := rows.Scan(&itm.id, &itm.name, &itm.amount)
+		var unit Units
+		err := rows.Scan(&unit.Id, &unit.Name, &unit.Fraction, &unit.State, &unit.Job, &unit.Level, &unit.Xp)
 		CheckError(err, "attempt to Iter through rows.Next")
 
-		items = append(items, itm)
+		allUnits = append(allUnits, unit)
+		fmt.Println(unit.Id)
 	}
 	err = rows.Err()
 	CheckError(err, "attempt ending rows.Err")
 
-	return items, nil
+	return allUnits, nil
 }
 
-func updateItem(level, xp, total_xp int, grade string) {
-	sql_cmd := fmt.Sprintf("insert into levels (level, grade, req_xp, total_xp) values (%v, '%v', %v, %v);", level, grade, xp, total_xp)
-	
+func Exec(sql_cmd string) bool {
 	_, err := db.Exec(sql_cmd)
-	CheckError(err, "attemping to updateItem...:",)
-	
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func Close() {
+	db.Close()
 }
 
 func CheckError(err error, error_name string) {
