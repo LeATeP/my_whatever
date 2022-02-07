@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"encoding/json"
 	// "encoding/gob"
 	"leatep/handler"
 	"leatep/pdb"
@@ -16,6 +17,15 @@ func Err(err error) {
 	}
 }
 
+func sliceToMap(item interface{}) map[string]interface{} {
+	m := make(map[string]interface{})
+	j, _ := json.Marshal(item)
+	json.Unmarshal(j, &m)
+	
+	return m
+}
+
+
 func main() {
 	ln, err := net.Listen("tcp", ":9000")
 	Err(err)
@@ -26,7 +36,11 @@ func main() {
 	if err != nil {
 		fmt.Println("failed query")
 	}
-	fmt.Println(result[0].Id)
+	for _, r := range result { 
+		item := sliceToMap(r)
+		fmt.Println(item)
+		
+	}
 
 
 	for {

@@ -56,7 +56,6 @@ func QueryUnits(sql_cmd string) ([]Units, error) {
 		CheckError(err, "attempt to Iter through rows.Next")
 
 		allUnits = append(allUnits, unit)
-		fmt.Println(unit.Id)
 	}
 	err = rows.Err()
 	CheckError(err, "attempt ending rows.Err")
