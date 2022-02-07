@@ -6,11 +6,9 @@ import (
 	"net"
 	// "encoding/gob"
 	"leatep/handler"
+	"leatep/pdb"
 	// "time"
 )
-type msg struct {
-    M string
-}
 
 func Err(err error) {
 	if err != nil {
@@ -23,6 +21,13 @@ func main() {
 	Err(err)
 
 	fmt.Println("Listening to 9000")
+	pdb.Psql_connect()
+	result, err := pdb.QueryUnits("select * from unit;")
+	if err != nil {
+		fmt.Println("failed query")
+	}
+	fmt.Println(result[0].Id)
+
 
 	for {
 		conn, err := ln.Accept() // listen for clients
