@@ -32,7 +32,7 @@ func main() {
 
 	fmt.Println("Listening to 9000")
 	pdb.Psql_connect()
-	result, err := pdb.QueryUnits("select * from unit;")
+	result, err := pdb.QueryUnits("select * from Unit;")
 	if err != nil {
 		fmt.Println("failed query")
 	}
@@ -49,5 +49,6 @@ func main() {
 		
 		go handler.ReceiveHandler(conn)
 		go handler.SendHandler(conn)
+		break
 	}
 }

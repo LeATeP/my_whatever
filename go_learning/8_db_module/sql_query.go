@@ -20,7 +20,7 @@ const (
 
 type Units struct {
 	Id int
-	Name, Fraction, State, Job string
+	Name, State, Job string
 	Level, Xp int
 }
  
@@ -43,6 +43,19 @@ func Psql_connect() {
 
 }
 
+func getColumns(rows *sql.Rows) {
+	columns, _ := rows.Columns()
+
+	columnType := make([]interface{}, len(columns))
+	colType, _ := rows.ColumnTypes()
+
+	for i, t := range colType {
+		columnType[i] = t.DatabaseTypeName()
+	}
+	fmt.Println(columnType)
+}
+
+
 func QueryUnits(sql_cmd string) ([]Units, error) {
 	var allUnits []Units
 
@@ -50,9 +63,11 @@ func QueryUnits(sql_cmd string) ([]Units, error) {
 	CheckError(err, "attempt to query db.Query")
 	defer rows.Close()
 
+	getColumns(rows)
+
 	for rows.Next() {
 		var unit Units
-		err := rows.Scan(&unit.Id, &unit.Name, &unit.Fraction, &unit.State, &unit.Job, &unit.Level, &unit.Xp)
+		err := rows.Scan(&unit.Id, &unit.Name, &unit.State, &unit.Job, &unit.Level, &unit.Xp)
 		CheckError(err, "attempt to Iter through rows.Next")
 
 		allUnits = append(allUnits, unit)
