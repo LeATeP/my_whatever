@@ -46,13 +46,7 @@ func Psql_connect() {
 func getColumns(rows *sql.Rows) {
 	columns, _ := rows.Columns()
 
-	columnType := make([]interface{}, len(columns))
-	colType, _ := rows.ColumnTypes()
-
-	for i, t := range colType {
-		columnType[i] = t.DatabaseTypeName()
-	}
-	fmt.Println(columnType)
+	fmt.Println(columns)
 }
 
 

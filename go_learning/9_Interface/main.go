@@ -6,34 +6,35 @@ import (
 )
 
 type lol struct {
-	name string
 	num int
 	num1 int
 }
 
 func main() {
 	pdb.Psql_connect()
-	result, err := pdb.QueryUnits("select * from Unit;")
-
+	result, err := pdb.QueryUnits("select * from unit;")
 	fmt.Println(result, err)
 
-	q, w, e := 1, 2, 3
-	changing(&q,&w,&e)
+	e := make([]interface{}, 3)
+	r := make([]interface{}, len(e))
+	for i := range e {
+		r[i] = &e[i]
+	}
 
-	// in := make([]interface{}, 10)
-	// in[1] = "asd"
-	// fmt.Println(in)
-// 
-	// w1 := lol{"asd"}
-	// fmt.Println(w1)
+	// w := make([]interface{}, 3)
+	changing(r...)
+	fmt.Println(e)
+
 }
 
 func changing(w ...interface{}) {
 	for _, t := range w {
 		switch d := t.(type) {
 		case *int:
-			*d = 15
 			fmt.Println(*d)
+			*d = 15
+		default:
+			fmt.Println("nil")
 		}
 	}
 }
