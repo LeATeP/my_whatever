@@ -17,12 +17,6 @@ const (
     password = "123"
     dbname   = "sql"
 )
-
-type Units struct {
-	Id int
-	Name, State, Job string
-	Level, Xp int
-}
  
 // os.Getenv("HOSTNAME") # as an example how to get env
 
@@ -43,33 +37,38 @@ func Psql_connect() {
 
 }
 
-func getColumns(rows *sql.Rows) {
-	columns, _ := rows.Columns()
+func getColumns(rows *sql.Rows) ([][]string, []string, []interface{}) {
+	columns, err := rows.Columns()
+	CheckError(err, "columns")
 
-	fmt.Println(columns)
+	sliceOfRows := [][]string{}
+	content_slice := make([]string, len(columns))
+	pointers := make([]interface{}, len(columns))
+	for i := range content_slice {
+		pointers[i] = &content_slice[i]
+	}
+	
+	return sliceOfRows, content_slice, pointers
 }
 
 
-func QueryUnits(sql_cmd string) ([]Units, error) {
-	var allUnits []Units
-
+func QueryUnits(sql_cmd string) ([][]string, error) {
 	rows, err := db.Query(sql_cmd)
 	CheckError(err, "attempt to query db.Query")
 	defer rows.Close()
 
-	getColumns(rows)
+	slices, rowData, pointers := getColumns(rows)
 
 	for rows.Next() {
-		var unit Units
-		err := rows.Scan(&unit.Id, &unit.Name, &unit.State, &unit.Job, &unit.Level, &unit.Xp)
+		err := rows.Scan(pointers...)
 		CheckError(err, "attempt to Iter through rows.Next")
-
-		allUnits = append(allUnits, unit)
+		
+		slices = append(slices, rowData)
 	}
 	err = rows.Err()
 	CheckError(err, "attempt ending rows.Err")
 
-	return allUnits, nil
+	return slices, nil
 }
 
 func Exec(sql_cmd string) bool {

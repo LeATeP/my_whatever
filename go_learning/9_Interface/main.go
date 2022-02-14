@@ -15,16 +15,6 @@ func main() {
 	result, err := pdb.QueryUnits("select * from unit;")
 	fmt.Println(result, err)
 
-	e := make([]interface{}, 3)
-	r := make([]interface{}, len(e))
-	for i := range e {
-		r[i] = &e[i]
-	}
-
-	// w := make([]interface{}, 3)
-	changing(r...)
-	fmt.Println(e)
-
 }
 
 func changing(w ...interface{}) {
@@ -33,8 +23,8 @@ func changing(w ...interface{}) {
 		case *int:
 			fmt.Println(*d)
 			*d = 15
-		default:
-			fmt.Println("nil")
+		case *string:
+			*d = "asd"
 		}
 	}
 }
