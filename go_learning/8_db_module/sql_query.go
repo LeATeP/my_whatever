@@ -38,12 +38,13 @@ func Psql_connect() {
 }
 
 func createPointers(rows *sql.Rows) ([][]string, []string, []string, []interface{}) {
-	columns, err := rows.Columns()
+	columns, err 	:= rows.Columns()
 	CheckError(err, "columns")
 
-	sliceOfRows := [][]string{}
-	content_slice := make([]string, len(columns))
-	pointers := make([]interface{}, len(columns))
+	sliceOfRows		:= 		[][]string{}
+	content_slice 	:= make([]string, len(columns))
+	pointers 		:= make([]interface{}, len(columns))
+
 	for i := range content_slice {
 		pointers[i] = &content_slice[i]
 	}
@@ -52,10 +53,10 @@ func createPointers(rows *sql.Rows) ([][]string, []string, []string, []interface
 }
 
 func convetIntoMap(slices [][]string, columns []string) []map[string]string {
-	newMaps := []map[string]string{}
+	newMaps 	:= []map[string]string{}
 
 	for _, data := range slices {
-		newMap := map[string]string{}
+		newMap 	:= map[string]string{}
 		for i, colName := range columns {
 			newMap[colName] = data[i]
 		}
