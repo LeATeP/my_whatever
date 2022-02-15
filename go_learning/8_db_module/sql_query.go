@@ -1,5 +1,5 @@
 package pdb
- 
+
 import (
     "database/sql"
     "fmt"
@@ -17,7 +17,7 @@ const (
     password = "123"
     dbname   = "sql"
 )
- 
+
 // os.Getenv("HOSTNAME") # as an example how to get env
 
 func Psql_connect() {
@@ -37,7 +37,7 @@ func Psql_connect() {
 
 }
 
-func getColumns(rows *sql.Rows) ([][]string, []string, []string, []interface{}) {
+func createPointers(rows *sql.Rows) ([][]string, []string, []string, []interface{}) {
 	columns, err := rows.Columns()
 	CheckError(err, "columns")
 
@@ -53,9 +53,9 @@ func getColumns(rows *sql.Rows) ([][]string, []string, []string, []interface{}) 
 
 func convetIntoMap(slices [][]string, columns []string) []map[string]string {
 	newMaps := []map[string]string{}
-	newMap := map[string]string{}
 
 	for _, data := range slices {
+		newMap := map[string]string{}
 		for i, colName := range columns {
 			newMap[colName] = data[i]
 		}
@@ -70,7 +70,7 @@ func QueryUnits(sql_cmd string) ([]map[string]string, error) {
 	CheckError(err, "attempt to query db.Query")
 	defer rows.Close()
 
-	slices, rowData, columns, pointers := getColumns(rows)
+	slices, rowData, columns, pointers := createPointers(rows)
 
 	for rows.Next() {
 		err := rows.Scan(pointers...)
@@ -98,7 +98,7 @@ func Close() {
 }
 
 func CheckError(err error, error_name string) {
-    if err != nil {
-        log.Fatal(err, "\n--- ", error_name, " ---")
-    }
+	if err != nil {
+		log.Fatal(err, "\n--- ", error_name, " ---")
+	}
 }
