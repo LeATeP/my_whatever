@@ -38,10 +38,12 @@ func Psql_connect() {
 }
 
 func createPointers(content *[]string) ([]interface{}) {
+
 	pointers := make([]interface{}, len(*content))
-	for i := range *content {
-		pointers[i] = &(*content)[i]
-	}
+	fmt.Println(content)
+	// for i := range *content {
+		// pointers[i] = *content[i]
+	// }
 	
 	return pointers
 }
@@ -68,22 +70,22 @@ func QueryUnits(sql_cmd string) ([]map[string]string, error) {
 	columns, err 	:= rows.Columns()
 	CheckError(err, "columns")
 
-	rowsStack	:= [][]string{}
+	sliceOfRows	:= [][]string{}
+	content 	:= make([]string, len(columns))
+	pointers := createPointers(&content)
 
 	for rows.Next() {
-		content 	:= make([]string, len(columns))
-		pointers := createPointers(&content)
-	
 		err := rows.Scan(pointers...)
 		CheckError(err, "attempt to Iter through rows.Next")
 		
-		rowsStack = append(rowsStack, content)
+		// slices = append(slices, rowData)
+		// fmt.Println(slices)
 	}
 	err = rows.Err()
 	CheckError(err, "attempt ending rows.Err")
 
-	formedMap := convetIntoMap(rowsStack, columns)
-	return formedMap, nil
+	// formedMap := convetIntoMap(slices, columns)
+	return []map[string]string, nil
 }
 
 func Exec(sql_cmd string) bool {

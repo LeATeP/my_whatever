@@ -7,7 +7,7 @@ import (
 
 func main() {
 	pdb.Psql_connect()
-	result, _ := pdb.QueryUnits("select * from unit;")
+	result, _ := pdb.QueryUnits("select * from items;")
 
 	for _, t := range result {
 		fmt.Println(t)
