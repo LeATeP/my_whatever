@@ -5,16 +5,13 @@ import (
 	"leatep/pdb"
 )
 
-type lol struct {
-	num int
-	num1 int
-}
-
 func main() {
 	pdb.Psql_connect()
-	result, err := pdb.QueryUnits("select * from unit;")
-	fmt.Println(result, err)
+	result, _ := pdb.QueryUnits("select * from unit;")
 
+	for _, t := range result {
+		fmt.Println(t)
+	}
 }
 
 func changing(w ...interface{}) {

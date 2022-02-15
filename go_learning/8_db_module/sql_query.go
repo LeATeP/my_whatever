@@ -37,7 +37,7 @@ func Psql_connect() {
 
 }
 
-func getColumns(rows *sql.Rows) ([][]string, []string, []interface{}) {
+func getColumns(rows *sql.Rows) ([][]string, []string, []string, []interface{}) {
 	columns, err := rows.Columns()
 	CheckError(err, "columns")
 
@@ -48,16 +48,29 @@ func getColumns(rows *sql.Rows) ([][]string, []string, []interface{}) {
 		pointers[i] = &content_slice[i]
 	}
 	
-	return sliceOfRows, content_slice, pointers
+	return sliceOfRows, content_slice, columns, pointers
+}
+
+func convetIntoMap(slices [][]string, columns []string) []map[string]string {
+	newMaps := []map[string]string{}
+	newMap := map[string]string{}
+
+	for _, data := range slices {
+		for i, colName := range columns {
+			newMap[colName] = data[i]
+		}
+		newMaps = append(newMaps, newMap)
+	}
+	return newMaps
 }
 
 
-func QueryUnits(sql_cmd string) ([][]string, error) {
+func QueryUnits(sql_cmd string) ([]map[string]string, error) {
 	rows, err := db.Query(sql_cmd)
 	CheckError(err, "attempt to query db.Query")
 	defer rows.Close()
 
-	slices, rowData, pointers := getColumns(rows)
+	slices, rowData, columns, pointers := getColumns(rows)
 
 	for rows.Next() {
 		err := rows.Scan(pointers...)
@@ -68,7 +81,8 @@ func QueryUnits(sql_cmd string) ([][]string, error) {
 	err = rows.Err()
 	CheckError(err, "attempt ending rows.Err")
 
-	return slices, nil
+	formedMap := convetIntoMap(slices, columns)
+	return formedMap, nil
 }
 
 func Exec(sql_cmd string) bool {
