@@ -4,6 +4,8 @@
 # running the last created image 
 if [[ "$1" == "r" ]]; then
     run --rm --network p_net "$(sudo docker images -q |head -1)"
+elif [[ "$1" == "rm" ]]; then
+    d rmi "$(sudo docker images -q |head -1)"
 exit; fi
 
 
