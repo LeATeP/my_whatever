@@ -1,0 +1,5 @@
+#!/bin/bash
+
+CGO_ENABLED=0 go build . && \
+d build -t "$1" . && \
+d run -it --rm --network p_net "$1"
