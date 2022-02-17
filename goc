@@ -5,11 +5,11 @@
 if [[ "$1" == "r" ]]; then
     run --rm --network p_net "$(sudo docker images -q |head -1)"
 elif [[ "$1" == "rm" ]]; then
+    # rm last image
     d rmi "$(sudo docker images -q |head -1)"
+else
+    # creating new image 
+    CGO_ENABLED=0 go build . && \
+    d build -t "$1" . && \
+    run --rm --network p_net "$1"
 exit; fi
-
-
-# creating new image 
-CGO_ENABLED=0 go build . && \
-d build -t "$1" . && \
-run --rm --network p_net "$1"
