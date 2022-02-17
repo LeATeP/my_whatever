@@ -1,5 +1,13 @@
 #!/bin/bash
 
+
+# running the last created image 
+if [[ "$1" == "r" ]]; then
+    run --rm --network p_net "$(sudo docker images -q |head -1)"
+exit; fi
+
+
+# creating new image 
 CGO_ENABLED=0 go build . && \
 d build -t "$1" . && \
-d run -it --rm --network p_net "$1"
+run --rm --network p_net "$1"
