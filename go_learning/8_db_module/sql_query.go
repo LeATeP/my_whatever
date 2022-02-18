@@ -11,7 +11,7 @@ import (
 var db *sql.DB
 
 const (
-    host     = "localhost" // "postgres"
+    host     = "postgres" // "postgres"
     port     = 5432
     user     = "postgres"
     password = "123"
@@ -38,12 +38,12 @@ func Psql_connect() {
 }
 
 func createPointers(content *[]string) ([]interface{}) {
-	pointers := make([]interface{}, len(*content))
-	for i := range *content {
-		pointers[i] = &(*content)[i]
+	point 		:= make([]interface{}, len(*content))
+	for i		:= range *content {
+		point[i] = &(*content)[i]
 	}
 	
-	return pointers
+	return point
 }
 
 func convetIntoMap(slices [][]string, columns []string) []map[string]string {
@@ -61,28 +61,28 @@ func convetIntoMap(slices [][]string, columns []string) []map[string]string {
 
 
 func QueryUnits(sql_cmd string) ([]map[string]string, error) {
-	rows, err := db.Query(sql_cmd)
+	rows, err 		:= db.Query(sql_cmd)
 	CheckError(err, "attempt to query db.Query")
 	defer rows.Close()
 
 	columns, err 	:= rows.Columns()
 	CheckError(err, "columns")
 
-	rowsStack	:= [][]string{}
+	rowsStack		:= [][]string{}
 
 	for rows.Next() {
 		content 	:= make([]string, len(columns))
-		pointers := createPointers(&content)
+		pointers 	:= createPointers(&content)
 	
 		err := rows.Scan(pointers...)
 		CheckError(err, "attempt to Iter through rows.Next")
 		
-		rowsStack = append(rowsStack, content)
+		rowsStack 	= append(rowsStack, content)
 	}
 	err = rows.Err()
 	CheckError(err, "attempt ending rows.Err")
 
-	formedMap := convetIntoMap(rowsStack, columns)
+	formedMap 		:= convetIntoMap(rowsStack, columns)
 	return formedMap, nil
 }
 

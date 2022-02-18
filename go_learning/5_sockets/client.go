@@ -16,7 +16,7 @@ func Err(err error) {
 }
 
 func main() {
-	conn, err := net.Dial("tcp", ":9000") // start connection
+	conn, err := net.Dial("tcp", ":9999") // start connection
 	Err(err)
 	fmt.Println("client started")
 
