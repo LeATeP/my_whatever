@@ -10,8 +10,8 @@ elif [[ "$1" == "rm" ]]; then
 elif [[ "$1" == "upd" ]]; then
     go get -u all
 elif [[ "$1" == "push" ]]; then
-    git add . && \
-    git commit -m "asd" && \
+    git add . &&
+    git commit -m "asd"
     git push &> /dev/null &
 else
     # creating new image 
