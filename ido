@@ -17,7 +17,7 @@ ido_status () {
 
 ido_edit () {
     num="0"
-    for i in "$ZET"/**/*.md; do
+    for i in "$ZET"/*/*.md; do
         txt="$(head -1 < "$i")"
 
         printf " -- %s. %s\n" "$num" "${txt:2}"
