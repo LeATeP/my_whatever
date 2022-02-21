@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# management of virtualbox / vm script, and login with ssh
+
+if [[ "$1" == "v1" ]]; then
+    ssh -p 3022 v1@127.0.0.1
+elif [[ "$1" == "v2" ]]; then
+    ssh -p 3023 v1@127.0.0.1
+exit; fi

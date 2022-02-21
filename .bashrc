@@ -165,15 +165,14 @@ fi
 
 ##############################################################################################################################
 ### My stuff ###
+export PAGER="most"
 
-
-export SCR="$HOME/scripts"
+export code="$HOME/code"
 export vaava="$HOME/code/Vaava"
 export HOST="$HOSTNAME"
-export ZET="$HOME/code/zet-notes"
-export HOSTNAME="cat"
+export ZET="$HOME/code/zet"
 
-export PSQL_HOST=0.0.0.0
+export PSQL_HOST=localhost
 export PSQL_USER=postgres 
 export PSQL_DB=sql
 export PGPASSWORD=123
@@ -181,13 +180,13 @@ export PGPASSWORD=123
 test -n "$DISPLAY" && setxkbmap -option caps:escape &>/dev/null
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
-export PATH=$HOME/scripts/docker/script:$PATH
-export PATH=$HOME/scripts/learning:$PATH
-export PATH=$HOME/scripts:$PATH
+export PATH=$code/my_whatever/docker/script:$PATH
+export PATH=$code/my_whatever/learning:$PATH
+export PATH=$code/my_whatever:$PATH
 export PATH=$vaava/:$PATH
 export PATH=$vaava/hub/:$PATH
 export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/scripts/k8s:$PATH
+export PATH=$code/my_whatever/k8s:$PATH
 export PATH=$HOME/go/bin:$PATH
 export PATH=/usr/local/go/bin:$PATH
 
