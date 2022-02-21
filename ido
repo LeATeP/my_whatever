@@ -16,19 +16,14 @@ ido_status () {
 }
 
 ido_edit () {
-    location="$(find "$ZET" -name README.md)"
- 
-    oldIFS="$IFS"; IFS=$'\n'
     num="0"
-
-    for i in $location; do
+    for i in "$ZET"/**/*.md; do
         txt="$(head -1 < "$i")"
 
         printf " -- %s. %s\n" "$num" "${txt:2}"
         loc+=("$i")
         num="$(echo "$num + 1" | bc)"
-
-    done; IFS="$oldIFS"
+    done;
     
     read -rp "Choice: " user_choice
     file_loc="${loc["$user_choice"]}"
