@@ -13,6 +13,6 @@ sudo apt-get update && apt-get install -y kubelet kubeadm kubectl
 mkdir code
 (cd code && git clone https://github.com/LeATeP/my_whatever)
 
-cp /home/code/.bashrc ~/
-cp /home/code/.bash-aliases ~/
-cp /home/code/.vimrc ~/
+cp /home/code/my_whatever/.bashrc ~/
+cp /home/code/my_whatever/.bash-aliases ~/
+cp /home/code/my_whatever/.vimrc ~/
