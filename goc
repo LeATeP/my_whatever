@@ -3,19 +3,25 @@
 
 # running the last created image 
 if [[ "$1" == "r" ]]; then
-    run --rm --network p_net "$(sudo docker images -q |head -1)"
+    d run -d \
+        --restart unless-stopped \
+        --network p_net \
+        "$(sudo docker images -q |head -1)"
+
 elif [[ "$1" == "rm" ]]; then
     # rm last image
     d rmi "$(sudo docker images -q |head -1)"
+
 elif [[ "$1" == "ed" ]]; then
     go mod edit -replace "$2"
+
 elif [[ "$1" == "push" ]]; then
     git add . &&
     git commit -m "asd"
     git push &> /dev/null &
+
 elif [[ "$1" == "run" ]]; then
-    d build -t "$1" -f "$2" . && \
-    d run -d --rm --network p_net "$1"
+    d build -t "$2" .
 else
     # creating new image 
     CGO_ENABLED=0 go build . && \

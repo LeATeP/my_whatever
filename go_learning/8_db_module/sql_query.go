@@ -4,7 +4,6 @@ import (
     "database/sql"
     "fmt"
 	"log"
-	// "time"
     _ "github.com/lib/pq"
 )
 
@@ -18,23 +17,16 @@ const (
     dbname   = "sql"
 )
 
-// os.Getenv("HOSTNAME") # as an example how to get env
-
 func Psql_connect() {
-        // connection string
-	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-
-        // open database
+	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+							host, port, user, password, dbname)
 	var err error
-    db, err = sql.Open("postgres", psqlconn)
+    db, err = sql.Open("postgres", psqlconn) // connecting to db
     CheckError(err, "failed open connection sql.Open")
 
-        // check db
-    err = db.Ping()
+    err = db.Ping() // check connection
     CheckError(err, "failed ping")
-
     fmt.Println("Connected!")
-
 }
 
 func createPointers(content *[]string) ([]interface{}) {
@@ -42,7 +34,6 @@ func createPointers(content *[]string) ([]interface{}) {
 	for i		:= range *content {
 		point[i] = &(*content)[i]
 	}
-	
 	return point
 }
 
@@ -60,22 +51,19 @@ func convetIntoMap(slices [][]string, columns []string) []map[string]string {
 }
 
 
-func QueryUnits(sql_cmd string) ([]map[string]string, error) {
+func QuerySelect(sql_cmd string) ([]map[string]string, error) {
 	rows, err 		:= db.Query(sql_cmd)
 	CheckError(err, "attempt to query db.Query")
 	defer rows.Close()
 
-	columns, err 	:= rows.Columns()
-	CheckError(err, "columns")
-
+	columns, _ 		:= rows.Columns()
 	rowsStack		:= [][]string{}
-
 	for rows.Next() {
 		content 	:= make([]string, len(columns))
 		pointers 	:= createPointers(&content)
 	
 		err := rows.Scan(pointers...)
-		CheckError(err, "attempt to Iter through rows.Next")
+		CheckError(err, "attempt to Scan rows.Next")
 		
 		rowsStack 	= append(rowsStack, content)
 	}
@@ -88,10 +76,7 @@ func QueryUnits(sql_cmd string) ([]map[string]string, error) {
 
 func Exec(sql_cmd string) bool {
 	_, err := db.Exec(sql_cmd)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
 
 func Close() {

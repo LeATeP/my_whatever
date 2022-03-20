@@ -22,7 +22,7 @@ func sliceToMap(item interface{}) map[string]interface{} {
 	j, _ := json.Marshal(item)
 	json.Unmarshal(j, &m)
 	
-	return m
+	return &m
 }
 
 
@@ -49,5 +49,5 @@ func main() {
 		
 		go handler.ReceiveHandler(conn)
 		go handler.SendHandler(conn)
-	
+	}
 }
