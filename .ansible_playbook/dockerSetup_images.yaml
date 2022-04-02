@@ -1,0 +1,35 @@
+---
+- name: getting docker into system
+  hosts: linux
+  tasks:
+    - name: getting docker
+      apt:
+        name: docker.io
+        state: latest
+    - name : install pip
+      apt:
+        name: pip
+        state: latest
+    - name: installing python docker SDK 
+      pip:
+        name: docker
+        state: latest
+    - name: pull kibana image
+      docker_image:
+        name: kibana:8.1.1
+        source: pull
+    - name: pull elasticsearch image
+      docker_image:
+        name: elasticsearch:8.1.1
+        source: pull
+    - name: pull elastic/file image
+      docker_image:
+        name: elastic/file:8.1.1
+        source: pull
+    - name: pull logstash image
+      docker_image:
+        name: logstash:8.1.1
+        source: pull
+  become: yes
+
+

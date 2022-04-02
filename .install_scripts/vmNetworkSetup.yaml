@@ -1,0 +1,15 @@
+# 1. set VBox network manager
+# 2. set VM machine second network, host-only adapter
+# 3. inside `ip addr` and create `01-netcfg.yaml` and put content from here  
+# 4. run `sudo netplan apply`
+# and now be happy to connect via machine name, and VBox network `ssh master@192.168.56.2`
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s8:
+      dhcp4: no
+      addresses: [192.168.56.2/24]
+      nameservers:
+        addresses: [1.1.1.1, 8.8.8.8]
