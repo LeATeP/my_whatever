@@ -2,34 +2,32 @@
 - name: getting docker into system
   hosts: linux
   tasks:
-    - name: getting docker
+    - name: Getting stuff
       apt:
-        name: docker.io
+        name: "{{ item }}"
         state: latest
-    - name : install pip
-      apt:
-        name: pip
-        state: latest
-    - name: installing python docker SDK 
+      loop:
+      - docker.io
+      - pip
+      - fontconfig 
+      - openjdk-11-jre
+      # - jenkins
+      # - terraform
+
+    - name: getting "python `docker`" for pulling images
       pip:
         name: docker
         state: latest
-    - name: pull kibana image
+
+    - name: pull ELKF stack
       docker_image:
-        name: kibana:8.1.1
+        name: "{{ item }}"
         source: pull
-    - name: pull elasticsearch image
-      docker_image:
-        name: elasticsearch:8.1.1
-        source: pull
-    - name: pull elastic/file image
-      docker_image:
-        name: elastic/file:8.1.1
-        source: pull
-    - name: pull logstash image
-      docker_image:
-        name: logstash:8.1.1
-        source: pull
-  become: yes
+      loop:
+        - kibana:8.1.1
+        - elasticsearch:8.1.1
+        - elastic/filebeat:8.1.1
+        - logstash:8.1.1
+  become: true
 
 

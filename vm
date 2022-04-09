@@ -7,5 +7,5 @@ if [[ "$1" == "v1" ]]; then
 elif [[ "$1" == "v2" ]]; then
     ssh -p 3023 master@127.0.0.1
 elif [[ "$1" == "m1" ]]; then
-    ssh master@192.168.56.2
+    ssh master@192.168.56.4
 exit; fi

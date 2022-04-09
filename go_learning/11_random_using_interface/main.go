@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+	"github.com/olekukonko/tablewriter"
 )
 
 type num int

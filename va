@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ "$1" == "s" ]]; then
+    go run server.go
+elif [[ "$1" == "m" ]]; then
+    go run main.go
+fi
